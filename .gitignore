@@ -1,0 +1,9 @@
+kita-lapor/
+*.pyc
+__pycache__/
+
+# SQLite
+*.db
+
+# files
+*.csv
