@@ -42,13 +42,13 @@ python3.9 -m pip install virtualenv
 8. Buat Virtual Environment baru:
 
 ```
-python3.9 -m venv kita-lapor
+python3.9 -m venv hidup-sehat
 ```
 
 9. Aktifkan Virtual Environment:
 
 ```
-source kita-lapor/bin/activate
+source hidup-sehat/bin/activate
 ```
 
 10. Instal package-package yang terdaftar pada requirements.txt
@@ -60,5 +60,24 @@ pip3.9 install -r requirements.txt
 11. Jalankan server dan mulai pengembangan
 
 ```
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
+
+## Development
+
+1. Aktifkan Virtual Environment:
+
+```
+source hidup-sehat/bin/activate
+```
+
+2. Jalankan server dan mulai pengembangan
+
+```
+uvicorn app.main:app --reload
+```
+
+API menjalankan berbagai layanan sebagai berikut:
+
+Backend: http://localhost:8000/v1
+Backend OpenAPI docs: http://localhost:8000/docs/
