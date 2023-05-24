@@ -1,6 +1,7 @@
 kita-lapor/
 *.pyc
 __pycache__/
+ServiceAccountKey.json
 
 # SQLite
 *.db
