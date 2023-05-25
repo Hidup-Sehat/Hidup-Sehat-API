@@ -4,10 +4,6 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 app = FastAPI()
 
-# Load Firebase Admin SDK credentials
-cred = credentials.Certificate("ServiceAccountKey.json")
-auth.initialize_app(cred)
-
 # Create a FastAPI security dependency for ID token authentication
 security = HTTPBearer()
 
