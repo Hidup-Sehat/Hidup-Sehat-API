@@ -9,6 +9,7 @@ from app.schemas.user import (
     GetLeaderboard
 )
 from firebase_admin import auth
+from app.deps.auth import authenticate_user
 
 router = APIRouter()
 
@@ -26,9 +27,10 @@ async def login_user(
     user = auth.get_user_by_email(request.email)
     return {"message": f'This is the login post endpoint with {user.uid}'}
 
-@router.post("/user/{user_id}/detail", status_code=status.HTTP_200_OK)
+@router.post("/user/{user_id}/detail", status_code=status.HTTP_201_CREATED)
 async def create_user_detail(
     request: CreateUserDetail
+    # user_id: str = Depends(authenticate_user)
 ) -> JSONResponse:
     return {"message": "This is the user detail post endpoint"}
 #! after POST user detail, create user statistic (actualNeed)
@@ -37,6 +39,7 @@ async def create_user_detail(
 async def update_profile(
     profile_id: str,
     request: UpdateProfile
+    # user_id: str = Depends(authenticate_user)
 ) -> JSONResponse:
     return {"message": "This is the profile put endpoint"}
 #! after PUT Profile, update user statistic (actualNeed)
@@ -45,6 +48,7 @@ async def update_profile(
 async def update_password(
     profile_id: str,
     request: UpdatePassword
+    # user_id: str = Depends(authenticate_user)
 ) -> JSONResponse:
     return {"message": "This is the profile password put endpoint"}
 
