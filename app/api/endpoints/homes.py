@@ -5,8 +5,18 @@ from app.schemas.home import (
     UpdateUserStatisticTarget,
     CreateUserEmotion
 )
+from ..firebase import db
 
 router = APIRouter()
+
+@router.get("/testing/{user_id}", status_code=status.HTTP_200_OK)
+async def get_user(user_id: str):
+    docs = db.collection('user').document(user_id).get()
+    print(docs.to_dict())
+    if docs.exists:
+        return docs.to_dict()
+    else:
+        return None
 
 @router.get("/user-statistic", response_model=GetUserStatistic, status_code=status.HTTP_200_OK)
 async def get_user_statistic():
