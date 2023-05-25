@@ -8,20 +8,23 @@ from app.schemas.user import (
     UpdatePassword,
     GetLeaderboard
 )
+from firebase_admin import auth
 
 router = APIRouter()
 
-@router.post("/register", status_code=status.HTTP_200_OK)
+@router.post("/register", status_code=status.HTTP_201_CREATED)
 async def register_user(
     request: Register
 ) -> JSONResponse:
+    user = auth.create_user(email=request.email, password=request.password)
     return {"message": "This is the register post endpoint"}
 
 @router.post("/login", status_code=status.HTTP_200_OK)
 async def login_user(
     request: Login
 ) -> JSONResponse:
-    return {"message": "This is the login post endpoint"}
+    user = auth.get_user_by_email(request.email)
+    return {"message": f'This is the login post endpoint with {user.uid}'}
 
 @router.post("/user/{user_id}/detail", status_code=status.HTTP_200_OK)
 async def create_user_detail(
