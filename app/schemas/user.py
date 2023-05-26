@@ -16,13 +16,19 @@ class Login(BaseModel):
     password: str
 
 class CreateUserDetail(BaseModel):
+    uid: str = Field(..., example="e0c12eca-fb92-11ed-be56-0242ac120002")
     id: UUID
-    gender: str
-    age: int
-    height: int
-    weight: int
+    email: str = Field(..., example="eds02@gmail.com")
+    name: str
+    imgUrl: str
+    contactNumber: str
+    dateOfBirth: date
+    age: int = Field(..., example=21)
+    gender: str | str = Query(..., regex="^(Male|Female)$")
+    height: int = Field(..., example=170)
+    weight: int = Field(..., example=70)
     target: str
-    weightTarget: int
+    weightTarget: int = Field(..., example=65)
 
 class UpdateProfile(BaseModel):
     id: UUID
