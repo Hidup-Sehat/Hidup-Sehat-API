@@ -2,33 +2,44 @@ from pydantic import BaseModel, Field
 from uuid import UUID
 from fastapi import Query
 from datetime import date
-from typing import List
+from typing import List, Optional
 
-class Register(BaseModel):
-    id: UUID
+class GetUserData(BaseModel):
+    user_id: str
+    username: str
+    email: str
+
+class RequestRegister(BaseModel):
     username: str
     email: str
     password: str
     confirmPassword: str
 
-class Login(BaseModel):
+class ResponseRegister(BaseModel):
+    message: str
+    data: GetUserData
+
+class RequestLogin(BaseModel):
     email: str
     password: str
 
+class ResponseLogin(BaseModel):
+    message: str
+    data: GetUserData
+
 class CreateUserDetail(BaseModel):
-    uid: str = Field(..., example="e0c12eca-fb92-11ed-be56-0242ac120002")
-    id: UUID
-    email: str = Field(..., example="eds02@gmail.com")
-    name: str
-    imgUrl: str
-    contactNumber: str
-    dateOfBirth: date
-    age: int = Field(..., example=21)
-    gender: str | str = Query(..., regex="^(Male|Female)$")
-    height: int = Field(..., example=170)
-    weight: int = Field(..., example=70)
-    target: str
-    weightTarget: int = Field(..., example=65)
+    # id: UUID
+    # email: Optional[str] = Field(None, example="eds02@gmail.com")
+    name: Optional[str]
+    # imgUrl: Optional[str]
+    contactNumber: Optional[str]
+    dateOfBirth: Optional[date]
+    age: Optional[int] = Field(None, example=21)
+    gender: Optional[str] = Query(None, regex="^(Male|Female)$")
+    height: Optional[int] = Field(None, example=170)
+    weight: Optional[int] = Field(None, example=70)
+    target: Optional[str]
+    weightTarget: Optional[int] = Field(None, example=65)
 
 class UpdateProfile(BaseModel):
     id: UUID

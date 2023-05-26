@@ -5,7 +5,7 @@ from app.schemas.home import (
     UpdateUserStatisticTarget,
     CreateUserEmotion
 )
-from ..firebase import db
+from app.deps.firebase import db
 
 router = APIRouter()
 
