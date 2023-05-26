@@ -112,7 +112,7 @@ async def login_user(
         )
 
 
-@router.post("/userDetail", status_code=status.HTTP_200_OK)
+@router.post("/user-detail", status_code=status.HTTP_200_OK)
 async def create_user_detail(
     request: CreateUserDetail,
     user_uid: str = Header(None)
