@@ -1,7 +1,7 @@
 from fastapi import APIRouter, FastAPI
 from .endpoints import users, homes, activity, blogs
 from app.core.config import settings
-from .firebase import db
+from app.deps.firebase import db
 
 # from app.api import utils
 
