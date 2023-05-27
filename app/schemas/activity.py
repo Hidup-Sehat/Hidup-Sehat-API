@@ -12,15 +12,6 @@ class GetAllActivity(BaseModel):
     difficulty: str
     imgUrl: str
     movementCount: int
-    # movementList: List[
-    #     {
-    #         category: str,
-    #         movement: str,
-    #         desc: str,
-    #         imgUrl: str, 
-    #         order: int
-    #     }
-    # ]
 
 class GetActivityMovement(BaseModel):
     id: UUID

@@ -30,6 +30,7 @@ class ResponseLogin(BaseModel):
 class CreateUserDetail(BaseModel):
     # id: UUID
     # email: Optional[str] = Field(None, example="eds02@gmail.com")
+    username: Optional[str] = Field(None, example="eds02")
     name: Optional[str]
     # imgUrl: Optional[str]
     contactNumber: Optional[str]
@@ -42,17 +43,22 @@ class CreateUserDetail(BaseModel):
     weightTarget: Optional[int] = Field(None, example=65)
 
 class UpdateProfile(BaseModel):
-    id: UUID
-    name: str
-    dateOfBirth: date
+    # id: UUID
+    name: Optional[str] = Field(None, regex="^[a-z]{1,10}$")
+    contactNumber: Optional[str] = Field(None, regex="^(\+62|0)[0-9]{8,15}$")
+    dateOfBirth: Optional[date] = Field(None, example="2000-01-01")
+    imgUrl: Optional[str] = Field(None, regex="^(http|https)://")
 
 class UpdatePassword(BaseModel):
     id: UUID
     password: str
     confirmPassword: str
 
-class GetLeaderboard(BaseModel):
-    id: UUID
+
+class LeaderboardEntry(BaseModel):
     username: str
     name: str
     points: int
+
+class GetLeaderboard(BaseModel):
+    data: List[LeaderboardEntry]
