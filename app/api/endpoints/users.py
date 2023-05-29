@@ -36,6 +36,7 @@ async def register_user(
                 'email': user.email,
                 'username': user.display_name,
                 'password': request.password,
+                    'registeredAt': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
             })
             return ResponseRegister(
                 message="Register success",
@@ -112,18 +113,18 @@ async def login_user(
         )
 
 
-@router.post("/user-detail", status_code=status.HTTP_200_OK)
+@router.post("/user/{user_uid}/detail", status_code=status.HTTP_200_OK)
 async def create_user_detail(
     request: CreateUserDetail,
-    user_uid: str = Header(None)
+    user_uid: str
     # user_id: str = Depends(authenticate_user)
 ) -> JSONResponse:
-
     try:
         doc_ref = db.collection('users').document(user_uid)
         doc_snapshot = doc_ref.get()
         if doc_snapshot.exists:
             data = doc_snapshot.to_dict()
+            username = request.username or data.get('username')
             name = request.name or data.get('name')
             contactNumber = request.contactNumber or data.get('contactNumber')
             dateOfBirth = request.dateOfBirth or datetime.fromtimestamp(data.get('dateOfBirth'))
@@ -149,7 +150,9 @@ async def create_user_detail(
             sleepNeeds = 8
             try:
                 doc_ref.update({
-                    'username': name,
+                    'username': username,
+                    'name': name,
+                    'imgUrl': '',
                     'contactNumber': contactNumber,
                     'dateOfBirth': datetime.combine(dateOfBirth, datetime.min.time()).timestamp(),
                     'age': age,
@@ -158,12 +161,18 @@ async def create_user_detail(
                     'weight': weight,
                     'target': target,
                     'weightTarget': weightTarget,
+                    'actualCalorie': 0,
+                    'actualWater': 0,
+                    'actualSleep': 0,
                     'calorieNeeds': calorieNeeds,
                     'waterNeeds': waterNeeds,
-                    'sleepNeeds': sleepNeeds
+                    'sleepNeeds': sleepNeeds,
+                    'points': 0,
+                    'emotionHistory': [],
                 })
                 return DefaultResponse(
                     message="User detail created",
+                    data=data
                 )
             except ValueError as e:
                 raise HTTPException(
@@ -180,107 +189,75 @@ async def create_user_detail(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e),
         )
-
-
-    # email = request.email
-
-    # userFound = []
-    # user = {}
-    # docId = ""
-    # docs = db.collection('user').where('email', '==', email).stream()
-    # for doc in docs:
-    #     userFound.append(doc.to_dict())
-    #     docId = doc.id
-    
-    # if len(userFound) > 1:
-    #     raise HTTPException(status_code=400, detail="Multiple users with same email")
-    # if len(userFound) == 0:
-    #     raise HTTPException(status_code=400, detail="No user with this email")
-    
-    # user =  userFound[0]
-    # print(user) 
-    # id = str(request.id)
-    # name = request.name
-    # imgUrl = request.imgUrl
-    # contactNumber = request.contactNumber
-    # dateOfBirth = request.dateOfBirth
-    # dt_with_time = datetime.combine(dateOfBirth, datetime.min.time()).timestamp()
-
-    # print(dateOfBirth)
-
-    # today = date.today()
-    # age = today.year - dateOfBirth.year - ((today.month, today.day) < (dateOfBirth.month, dateOfBirth.day))
-    # print(age)
-
-    # gender = request.gender
-    # height = request.height
-    # weight = request.weight
-    # target = request.target
-    # weightTarget = request.weightTarget
-
-    # if gender.lower() == "male":
-    #     bmr = 66 + (13.75 * weight) + (5 * height) - (6.75 * age)
-    # elif gender.lower() == "female":
-    #     bmr = 655 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
-    # # else:
-    # #     raise ValueError('Invalid gender. Please enter female or male')
-
-    # calorieNeeds = (int(bmr * 1.2))
-    # # assuming sedentary lifestyle
-    # waterNeeds = weight * 0.033
-    # # assuming 33ml per kg of body weight
-    # sleepNeeds = 8
-    # # assuming 8 hours of sleep per day
-
-    # db.collection('user').document(docId).update({
-    #     'id': id,
-    #     'name': name,
-    #     'imgUrl': imgUrl,
-    #     'contactNumber': contactNumber,
-    #     'dateOfBirth': dt_with_time,
-    #     'age': age,
-    #     'gender' : gender,
-    #     'height': height,
-    #     'weight': weight,
-    #     'target': target,
-    #     'weightTarget': weightTarget,
-    #     'calorieNeeds': calorieNeeds,
-    #     'waterNeeds': waterNeeds,
-    #     'sleepNeeds': sleepNeeds
-    # })
-
-    
-    # return {"id": id
-    #         ,"name": name
-    #         ,"imgUrl": imgUrl
-    #         ,"contactNumber": contactNumber
-    #         ,"dateOfBirth": dateOfBirth
-    #         , "gender": gender
-    #         , "height": height
-    #         , "weight": weight
-    #         , "target": target
-    #         , "weightTarget": weightTarget
-    #         , "calorieNeeds": calorieNeeds
-    #         , "waterNeeds": waterNeeds
-    #         , "sleepNeeds": sleepNeeds
-    #         }
-
-    # return {"message": "This is the user detail post endpoint"}
-    
-    
    
-#! after POST user detail, create user statistic (actualNeed)
-
-@router.put("/profile/{user_id}", status_code=status.HTTP_200_OK)
+@router.put("/user/{user_uid}/edit", status_code=status.HTTP_200_OK)
 async def update_profile(
-    profile_id: str,
-    request: UpdateProfile
-    # user_id: str = Depends(authenticate_user)
+    request: UpdateProfile,
+    user_uid: str
 ) -> JSONResponse:
-    return DefaultResponse(message="This is the profile put endpoint")
+    try:
+        doc_ref = db.collection('users').document(user_uid)
+        doc_snapshot = doc_ref.get()
+        if not doc_snapshot.exists:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="User not found",
+            )
+        data = doc_snapshot.to_dict()
+        name = request.name or data.get('name')
+        imgUrl = request.imgUrl or data.get('imgUrl')
+        contactNumber = request.contactNumber or data.get('contactNumber')
+
+        dateOfBirth = request.dateOfBirth or datetime.fromtimestamp(data.get('dateOfBirth'))
+
+        # Recalculate age based on date of birth
+        today = date.today()
+        age = (today.year - dateOfBirth.year - ((today.month, today.day) < (dateOfBirth.month, dateOfBirth.day)))
+
+        # Recalculate BMR based on gender, weight, height, and age
+        gender = data.get('gender')
+        weight = data.get('weight')
+        height = data.get('height')
+        if gender.lower() == "male":
+            bmr = 66 + (13.75 * weight) + (5 * height) - (6.75 * age)
+        elif gender.lower() == "female":
+            bmr = 655 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
+
+        # Recalculate calorie needs, water needs, and sleep needs
+        calorieNeeds = int(bmr * 1.2)
+        waterNeeds = weight * 0.033
+        sleepNeeds = 8
+
+        
+        try:
+            updated_data = {
+                'name': name,
+                'contactNumber': contactNumber,
+                'dateOfBirth': datetime.combine(dateOfBirth, datetime.min.time()).timestamp(),
+                'age': age,
+                'calorieNeeds': calorieNeeds,
+                'waterNeeds': waterNeeds,
+                'sleepNeeds': sleepNeeds
+            }
+
+            doc_ref.update(updated_data)
+            return DefaultResponse(
+                message="User profile updated",
+                data=updated_data   
+            )
+        except ValueError as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e),
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
 #! after PUT Profile, update user statistic (actualNeed)
 
-@router.put("/profile/{profile_id}/password", status_code=status.HTTP_200_OK)
+@router.put("/user/{profile_id}/password", status_code=status.HTTP_200_OK)
 async def update_password(
     profile_id: str,
     request: UpdatePassword
@@ -289,5 +266,32 @@ async def update_password(
     return {"message": "This is the profile password put endpoint"}
 
 @router.get("/leaderboard", response_model=GetLeaderboard, status_code=status.HTTP_200_OK)
-async def get_leaderboard():
-    return DefaultResponse(message="This is the leaderboard get endpoint")
+async def get_leaderboard() -> GetLeaderboard:
+    try:
+        users_ref = db.collection('users')
+        query = users_ref.order_by('points')
+        docs = query.stream()
+
+        leaderboard = []
+
+        for doc in docs:
+            data = doc.to_dict()
+            name = data.get('name')
+            username = data.get('username')
+            points = data.get('points')
+
+            leaderboard.append({
+                'name': name,
+                'username': username,
+                'points': points
+            })
+        
+        return GetLeaderboard(
+            message="Leaderboard retrieved",
+            data=leaderboard
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
