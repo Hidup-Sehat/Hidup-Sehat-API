@@ -2,32 +2,47 @@ from pydantic import BaseModel, Field
 from uuid import UUID
 from fastapi import Query
 from datetime import date
-from typing import List
+from typing import List, Optional
 
-class GetAllActivity(BaseModel):
-    id: UUID
+class GetActivityMovement(BaseModel):
+    id: str
+    sudutSikuKanan: int
+    sudutSikuKiri: int
+    sudutKetiakKanan: int
+    sudutKetiakKiri: int
+    sudutPundakKanan: int
+    sudutPundakKiri: int
+    sudutPinggulKanan: int
+    sudutPinggulKiri: int
+    sudutPahaKanan: int
+    sudutPahaKiri: int
+    sudutLututKanan: int
+    sudutLututKiri: int
+    
+class GetMovementList(BaseModel):
+    movementName: str
+    movementDesc: str
+    imgUrl: str
+
+class GetActivity(BaseModel):
+    id: str
     cardColor: int
     type: str
     category: str
     difficulty: str
     imgUrl: str
     movementCount: int
+    movementList: List[GetMovementList]
 
-class GetActivityMovement(BaseModel):
-    id: UUID
-    # movementData: List[
-    #     {
-    #         sudutSikuKanan: int,
-    #         sudutSikuKiri: int,
-    #         sudutKetiakKanan: int,
-    #         sudutKetiakKiri: int,
-    #         sudutPundakKanan: int,
-    #         sudutPundakKiri: int,
-    #         sudutPinggulKanan: int,
-    #         sudutPinggulKiri: int,
-    #         sudutPahaKanan: int,
-    #         sudutPahaKiri: int,
-    #         sudutLututKanan: int,
-    #         sudutLututKiri: int
-    #     }
-    # ]
+class CreateActivity(BaseModel):
+    id: str
+    cardColor: int = Query(..., ge=1, le=4)
+    type: str = Query(..., regex="^Yoga|Workout|Silat")
+    category: str = Query(..., regex="^Kelenturan|Kekuatan|Keseimbangan")
+    difficulty: str = Query(..., regex="^Pemula|Menengah|Ahli")
+    imgUrl: str
+    movementCount: int = Field(None, example=5)
+    movementList: List[GetMovementList]
+
+class GetAllActivity(BaseModel):
+    activity: List[GetActivity] 

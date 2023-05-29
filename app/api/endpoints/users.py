@@ -36,7 +36,7 @@ async def register_user(
                 'email': user.email,
                 'username': user.display_name,
                 'password': request.password,
-                'registeredAt': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+                    'registeredAt': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
             })
             return ResponseRegister(
                 message="Register success",
@@ -113,10 +113,10 @@ async def login_user(
         )
 
 
-@router.post("/user-detail", status_code=status.HTTP_200_OK)
+@router.post("/user/{user_uid}/detail", status_code=status.HTTP_200_OK)
 async def create_user_detail(
     request: CreateUserDetail,
-    user_uid: str = Header(None)
+    user_uid: str
     # user_id: str = Depends(authenticate_user)
 ) -> JSONResponse:
     try:
@@ -190,10 +190,10 @@ async def create_user_detail(
             detail=str(e),
         )
    
-@router.put("/edit-profile", status_code=status.HTTP_200_OK)
+@router.put("/user/{user_uid}/edit", status_code=status.HTTP_200_OK)
 async def update_profile(
     request: UpdateProfile,
-    user_uid: str = Header(None)
+    user_uid: str
 ) -> JSONResponse:
     try:
         doc_ref = db.collection('users').document(user_uid)
@@ -257,7 +257,7 @@ async def update_profile(
         )
 #! after PUT Profile, update user statistic (actualNeed)
 
-@router.put("/profile/{profile_id}/password", status_code=status.HTTP_200_OK)
+@router.put("/user/{profile_id}/password", status_code=status.HTTP_200_OK)
 async def update_password(
     profile_id: str,
     request: UpdatePassword

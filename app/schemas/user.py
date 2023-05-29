@@ -39,7 +39,7 @@ class CreateUserDetail(BaseModel):
     gender: Optional[str] = Query(None, regex="^(Male|Female)$")
     height: Optional[int] = Field(None, example=170)
     weight: Optional[int] = Field(None, example=70)
-    target: Optional[str]
+    target: Optional[str] 
     weightTarget: Optional[int] = Field(None, example=65)
 
 class UpdateProfile(BaseModel):
