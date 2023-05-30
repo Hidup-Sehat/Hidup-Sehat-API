@@ -4,16 +4,14 @@ from fastapi import Query
 from datetime import date
 from typing import List
 
-class getAllBlog(BaseModel):
-    id: UUID
+class BlogList(BaseModel):
     title: str
     slug: str
     imgUrl: str
     createdAt: date
     tags: List[str]
 
-class getBlog(BaseModel):
-    id: UUID
+class BlogDetails(BaseModel):
     title: str
     slug: str
     imgUrl: str
@@ -23,3 +21,11 @@ class getBlog(BaseModel):
     tags: List[str]
     viewers: int
     likes: int
+
+class GetAllBlogs(BaseModel):
+    message: str
+    data: List[BlogList]
+
+class GetBlog(BaseModel):
+    message: str
+    data: BlogDetails
