@@ -5,6 +5,7 @@ from app.schemas.activity import (
     CreateActivity,
     GetAllActivity,
     GetActivityMovement,
+    GetAllActivityMovement,
 )
 from app.deps.firebase import db
 
@@ -22,6 +23,7 @@ async def create_activity(
             "category": request.category,
             "difficulty": request.difficulty,
             "imgUrl": request.imgUrl,
+            "caloriesBurned": request.caloriesBurned,
             "movementCount": request.movementCount,
             "movementList": [get_movement_list.dict() for get_movement_list in request.movementList]
         }
@@ -86,7 +88,7 @@ async def create_activity_movement(
 async def get_all_activity():
     try:
         activity = db.collection('activities')
-        docs = activity.stream()
+        docs = activity.get()
 
         activity = []  
 
@@ -101,41 +103,25 @@ async def get_all_activity():
             detail=str(e),
         )
 
-#! This endpoint is still in bug
-@router.get("/activity/{activity_id}/movement/{index}", response_model=GetActivityMovement, status_code=status.HTTP_200_OK)
+@router.get("/activity/{activity_id}/movement", response_model=GetAllActivityMovement, status_code=status.HTTP_200_OK)
 async def get_activity_movement(
     activity_id: str,
-    index: int
 ):
     try: 
-        doc_ref = db.collection('activities').document(activity_id).collection('movementList').where('id', '==', index).get()
+        doc_ref = db.collection('activities').document(activity_id).collection('movementList').get()
+
+        movement = []
 
         for doc in doc_ref:
             doc_data = doc.to_dict()
+            movement.append(doc_data)
 
         if doc_data is None:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Movement activity not found",
             )
-        
-        data = {
-            "id": doc_data["id"],
-            "sudutSikuKanan": doc_data["sudutSikuKanan"],
-            "sudutSikuKiri": doc_data["sudutSikuKiri"],
-            "sudutKetiakKanan": doc_data["sudutKetiakKanan"],
-            "sudutKetiakKiri": doc_data["sudutKetiakKiri"],
-            "sudutPundakKanan": doc_data["sudutPundakKanan"],
-            "sudutPundakKiri": doc_data["sudutPundakKiri"],
-            "sudutPinggulKanan": doc_data["sudutPinggulKanan"],
-            "sudutPinggulKiri": doc_data["sudutPinggulKiri"],
-            "sudutPahaKanan": doc_data["sudutPahaKanan"],
-            "sudutPahaKiri": doc_data["sudutPahaKiri"],
-            "sudutLututKanan": doc_data["sudutLututKanan"],
-            "sudutLututKiri": doc_data["sudutLututKiri"],
-        }
-        
-        return GetActivityMovement(**data)
+        return GetAllActivityMovement(movement=movement)
         
     except ValueError as e:
         raise HTTPException(

@@ -62,3 +62,7 @@ class LeaderboardEntry(BaseModel):
 
 class GetLeaderboard(BaseModel):
     data: List[LeaderboardEntry]
+
+class CheckUsername(BaseModel):
+    message: str
+    data: str
