@@ -10,7 +10,8 @@ from app.schemas.user import (
     UpdateProfile,
     UpdatePassword,
     GetLeaderboard,
-    GetUserData
+    GetUserData,
+    CheckUsername
 )
 from firebase_admin import auth
 from app.deps.firebase import db
@@ -255,7 +256,6 @@ async def update_profile(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e),
         )
-#! after PUT Profile, update user statistic (actualNeed)
 
 @router.put("/user/{profile_id}/password", status_code=status.HTTP_200_OK)
 async def update_password(
@@ -290,6 +290,31 @@ async def get_leaderboard() -> GetLeaderboard:
             message="Leaderboard retrieved",
             data=leaderboard
         )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
+
+@router.get("/user/availability/{username}", response_model=CheckUsername, status_code=status.HTTP_200_OK)
+async def check_username_availability(
+    username: str
+):
+    try:
+        users_ref = db.collection('users')
+        query = users_ref.where('username', '==', username)
+        docs = query.stream()
+
+        if len(list(docs)) == 0:
+            return CheckUsername(
+                message="Username available",
+                data=True
+            )
+        else:
+            return CheckUsername(
+                message="Username not available",
+                data=False
+            )
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

@@ -1,24 +1,38 @@
 from pydantic import BaseModel, Field
 from uuid import UUID
 from fastapi import Query
-from datetime import date
+from datetime import date, datetime
 from typing import List
 
 class GetUserEmotion(BaseModel):
     emotion: str = Field(..., example="Happy")
     note: str
 
-class GetUserStatistic(BaseModel):
-    id: UUID
+class GetUserDetail(BaseModel):
+    id: str
+    username: str
+    name: str
+    email: str
+    imgUrl: str
+    contactNumber: str
+    dateOfBirth: datetime
+    age: int
+    gender: str
+    height: int
+    weight: int 
+    target: str
+    weightTarget: int
+    registeredAt: datetime
     actualCalorie: int
-    CalorieNeeds: int
     actualWater: int
-    WaterNeeds: int
     actualSleep: float
-    SleepNeeds: float
-    actualCalorieBurned: int
-    CalorieBurnedNeeds: int
-    emotionHistory: List[GetUserEmotion]
+    calorieNeeds: int
+    waterNeeds: float
+    sleepNeeds: float
+    # actualCalorieBurned: int
+    # CalorieBurnedNeeds: int
+    # emotionHistory: List[GetUserEmotion]
+    # foodHistory: List[GetUserFood]
 
 class UpdateUserStatisticTarget(BaseModel):
   CalorieNeeds: int
