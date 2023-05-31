@@ -12,11 +12,11 @@ def create_app():
     app.include_router(
         homes.router,
         prefix=f"{settings.API_PATH}",
-        tags=["Home (Natura)"])
+        tags=["Home"])
     app.include_router(
         users.router,
         prefix=f"{settings.API_PATH}",
-        tags=["User (Edy)"])
+        tags=["User"])
     app.include_router(
         activity.router,
         prefix=f"{settings.API_PATH}",
