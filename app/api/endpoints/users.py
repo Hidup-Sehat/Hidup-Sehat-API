@@ -123,68 +123,84 @@ async def create_user_detail(
     try:
         doc_ref = db.collection('users').document(user_uid)
         doc_snapshot = doc_ref.get()
-        if doc_snapshot.exists:
-            data = doc_snapshot.to_dict()
-            username = request.username or data.get('username')
-            name = request.name or data.get('name')
-            contactNumber = request.contactNumber or data.get('contactNumber')
-            dateOfBirth = request.dateOfBirth or datetime.fromtimestamp(data.get('dateOfBirth'))
-            gender = request.gender or data.get('gender')
-            height = request.height or data.get('height')
-            weight = request.weight or data.get('weight')
-            target = request.target or data.get('target')
-            weightTarget = request.weightTarget or data.get('weightTarget')
 
-            # Calculate age based on date of birth
-            today = date.today()
-            age = request.age or (today.year - dateOfBirth.year - ((today.month, today.day) < (dateOfBirth.month, dateOfBirth.day)))
-
-            # Calculate BMR based on gender, weight, height, and age
-            if gender.lower() == "male":
-                bmr = 66 + (13.75 * weight) + (5 * height) - (6.75 * age)
-            elif gender.lower() == "female":
-                bmr = 655 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
-
-            # Calculate calorie needs, water needs, and sleep needs
-            calorieNeeds = int(bmr * 1.2)
-            waterNeeds = weight * 0.033
-            sleepNeeds = 8
+        # if user exists in firebase auth, but not exists in firestore
+        if not doc_snapshot.exists:
+            # get user data from firebase auth
             try:
-                doc_ref.update({
-                    'username': username,
-                    'name': name,
-                    'imgUrl': '',
-                    'contactNumber': contactNumber,
-                    'dateOfBirth': datetime.combine(dateOfBirth, datetime.min.time()).timestamp(),
-                    'age': age,
-                    'gender' : gender,
-                    'height': height,
-                    'weight': weight,
-                    'target': target,
-                    'weightTarget': weightTarget,
-                    'actualCalorie': 0,
-                    'actualWater': 0,
-                    'actualSleep': 0,
-                    'calorieNeeds': calorieNeeds,
-                    'waterNeeds': waterNeeds,
-                    'sleepNeeds': sleepNeeds,
-                    'points': 0,
-                    'emotionHistory': [],
+                user = auth.get_user(user_uid)
+                doc_ref.set({
+                    'id': user.uid,
+                    'email': user.email,
+                    'username': user.display_name,
+                        'registeredAt': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
                 })
-                return DefaultResponse(
-                    message="User detail created",
-                    data=data
-                )
-            except ValueError as e:
+                doc_ref = db.collection('users').document(user_uid)
+                doc_snapshot = doc_ref.get()
+
+            except auth.UserNotFoundError:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=str(e),
+                    detail="User not found",
                 )
-        else:
+
+        data = doc_snapshot.to_dict()
+        username = request.username or data.get('username')
+        name = request.name or data.get('name')
+        contactNumber = request.contactNumber or data.get('contactNumber')
+        dateOfBirth = request.dateOfBirth or datetime.fromtimestamp(data.get('dateOfBirth'))
+        gender = request.gender or data.get('gender')
+        height = request.height or data.get('height')
+        weight = request.weight or data.get('weight')
+        target = request.target or data.get('target')
+        weightTarget = request.weightTarget or data.get('weightTarget')
+
+        # Calculate age based on date of birth
+        today = date.today()
+        age = request.age or (today.year - dateOfBirth.year - ((today.month, today.day) < (dateOfBirth.month, dateOfBirth.day)))
+
+        # Calculate BMR based on gender, weight, height, and age
+        if gender.lower() == "male":
+            bmr = 66 + (13.75 * weight) + (5 * height) - (6.75 * age)
+        elif gender.lower() == "female":
+            bmr = 655 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
+
+        # Calculate calorie needs, water needs, and sleep needs
+        calorieNeeds = int(bmr * 1.2)
+        waterNeeds = weight * 0.033
+        sleepNeeds = 8
+        try:
+            doc_ref.update({
+                'username': username,
+                'name': name,
+                'imgUrl': '',
+                'contactNumber': contactNumber,
+                'dateOfBirth': datetime.combine(dateOfBirth, datetime.min.time()).timestamp(),
+                'age': age,
+                'gender' : gender,
+                'height': height,
+                'weight': weight,
+                'target': target,
+                'weightTarget': weightTarget,
+                'actualCalorie': 0,
+                'actualWater': 0,
+                'actualSleep': 0,
+                'calorieNeeds': calorieNeeds,
+                'waterNeeds': waterNeeds,
+                'sleepNeeds': sleepNeeds,
+                'points': 0,
+                'emotionHistory': [],
+            })
+            return DefaultResponse(
+                message="User detail created",
+                data=data
+            )
+        except ValueError as e:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User not found",
+                detail=str(e),
             )
+
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
