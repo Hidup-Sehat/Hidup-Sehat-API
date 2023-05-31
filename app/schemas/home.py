@@ -1,11 +1,11 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, conint
 from uuid import UUID
 from fastapi import Query
 from datetime import date, datetime
 from typing import List
 
 class GetUserEmotion(BaseModel):
-    emotion: str = Field(..., example="Happy")
+    emotion: conint(ge=1, le=5, strict=True)
     note: str
 
 class GetUserDetail(BaseModel):
@@ -44,5 +44,5 @@ class UpdateUserStatisticTarget(BaseModel):
 class CreateUserEmotion(BaseModel):
     date: date
     # emotion: str = Query("", regex="^(Very Sad|Sad|OK|Happy|Very Happy)$")
-    emotion: str = Field(..., example="Happy")
+    emotion: conint(ge=1, le=5, strict=True)
     note: str
