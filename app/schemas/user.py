@@ -50,9 +50,9 @@ class UpdateProfile(BaseModel):
     imgUrl: Optional[str] = Field(None, regex="^(http|https)://")
 
 class UpdatePassword(BaseModel):
-    id: UUID
-    password: str
-    confirmPassword: str
+    oldPassword: str
+    newPassword: str
+    confirmNewPassword: str
 
 
 class LeaderboardEntry(BaseModel):

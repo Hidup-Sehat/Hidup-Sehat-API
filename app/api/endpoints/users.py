@@ -38,7 +38,7 @@ async def register_user(
                 'email': user.email,
                 'username': user.display_name,
                 'password': request.password,
-                    'registeredAt': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+                'registeredAt': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
             })
             return ResponseRegister(
                 message="Register success",
@@ -274,13 +274,45 @@ async def update_profile(
             detail=str(e),
         )
 
-@router.put("/user/{profile_id}/password", status_code=status.HTTP_200_OK)
+@router.put("/user/{user_uid}/password", status_code=status.HTTP_200_OK)
 async def update_password(
-    profile_id: str,
+    user_uid: str,
     request: UpdatePassword
-    # user_id: str = Depends(authenticate_user)
 ) -> JSONResponse:
-    return {"message": "This is the profile password put endpoint"}
+    try:
+        doc_ref = db.collection('users').document(user_uid)
+        doc_snapshot = doc_ref.get()
+
+        if not doc_snapshot.exists:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="User not found",
+            )
+
+        data = doc_snapshot.to_dict()
+
+        if not data.get('password') == request.oldPassword:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Old password is incorrect",
+            )
+        try:
+            doc_ref.update({
+                'password': request.newPassword
+            })
+            return {
+                'message': 'Password updated'
+            }
+        except ValueError as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e),
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
 
 @router.get("/leaderboard", response_model=GetLeaderboard, status_code=status.HTTP_200_OK)
 async def get_leaderboard() -> GetLeaderboard:
