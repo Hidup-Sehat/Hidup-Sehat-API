@@ -66,3 +66,6 @@ class GetLeaderboard(BaseModel):
 class CheckUsername(BaseModel):
     message: str
     data: str
+
+class RequestAddPoints(BaseModel):
+    points: int

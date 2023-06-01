@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, HTTPException, Header
+from fastapi import APIRouter, status, HTTPException, Header, UploadFile, File, Form
 from fastapi.responses import JSONResponse
 from app.schemas.default_schemas import DefaultResponse
 from app.schemas.user import (
@@ -11,7 +11,8 @@ from app.schemas.user import (
     UpdatePassword,
     GetLeaderboard,
     GetUserData,
-    CheckUsername
+    CheckUsername,
+    RequestAddPoints
 )
 from firebase_admin import auth
 from app.deps.firebase import db
@@ -330,6 +331,52 @@ async def check_username_availability(
             return CheckUsername(
                 message="Username not available",
                 data=False
+            )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
+
+# @router.post("/user/{user_uid}/update-profile-image", status_code=status.HTTP_200_OK)
+# async def upload_image(file: UploadFile = UploadFile(...)):
+
+@router.put("/user/{user_uid}/add-points", status_code=status.HTTP_200_OK)
+async def add_points(
+    user_uid: str,
+    request: RequestAddPoints
+):
+    try:
+        print(user_uid)
+        doc_ref = db.collection('users').document(user_uid)
+        doc_snapshot = doc_ref.get()
+
+        if doc_snapshot.exists:
+            data = doc_snapshot.to_dict()
+            current_points = data.get('points', 0)  # Set default points to 0 if not found
+            new_points = current_points + request.points
+
+            try:
+                doc_ref.update({
+                    'points': new_points
+                })
+                return DefaultResponse(
+                    message="Points added",
+                    data={
+                        'previous_points': current_points,
+                        'points_added': request.points,
+                        'points': new_points
+                    }
+                )
+            except ValueError as e:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=str(e),
+                )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="User not found",
             )
     except ValueError as e:
         raise HTTPException(
