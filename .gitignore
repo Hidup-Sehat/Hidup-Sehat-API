@@ -8,3 +8,6 @@ ServiceAccountKey.json
 
 # files
 *.csv
+
+# OS generated files #
+secret.key

@@ -17,6 +17,7 @@ from app.schemas.user import (
 from firebase_admin import auth
 from app.deps.firebase import db
 from datetime import date, datetime
+from app.deps.encrypt import encrypt, decrypt
 
 router = APIRouter()
 
@@ -37,7 +38,7 @@ async def register_user(
                 'id': user.uid,
                 'email': user.email,
                 'username': user.display_name,
-                'password': request.password,
+                'password': encrypt(request.password),
                 'registeredAt': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
             })
             return ResponseRegister(
@@ -77,7 +78,7 @@ async def login_user(
             doc_snapshot = doc_ref.get()
             if doc_snapshot.exists:
                 data = doc_snapshot.to_dict()
-                if data.get('password') != request.password:
+                if decrypt(data.get('password')) != request.password:
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
                         detail="Password is incorrect",
@@ -279,6 +280,12 @@ async def update_password(
     user_uid: str,
     request: UpdatePassword
 ) -> JSONResponse:
+    if not request.newPassword == request.confirmNewPassword:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New password and confirm new password does not match",
+        )
+        
     try:
         doc_ref = db.collection('users').document(user_uid)
         doc_snapshot = doc_ref.get()
@@ -291,14 +298,14 @@ async def update_password(
 
         data = doc_snapshot.to_dict()
 
-        if not data.get('password') == request.oldPassword:
+        if not decrypt(data.get('password')) == request.oldPassword:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Old password is incorrect",
             )
         try:
             doc_ref.update({
-                'password': request.newPassword
+                'password': encrypt(request.newPassword)
             })
             return {
                 'message': 'Password updated'
