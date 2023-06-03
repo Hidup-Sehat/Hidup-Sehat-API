@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 COPY . .
 
 # Generate the authentication key
-RUN python generate_auth_key.py
+RUN python deps/generate_auth_key.py
 
 EXPOSE 8080
 
