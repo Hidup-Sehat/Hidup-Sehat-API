@@ -11,3 +11,5 @@ ServiceAccountKey.json
 
 # OS generated files #
 secret.key
+
+.env
