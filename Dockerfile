@@ -14,6 +14,10 @@ COPY app/deps/generate_auth_key.py .
 # Run the script to generate the authentication key
 RUN python generate_auth_key.py
 
+# Install NLTK and download the resources
+RUN pip install nltk
+RUN python -c "import nltk; nltk.download('stopwords')"
+
 EXPOSE 8080
 
 # CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
