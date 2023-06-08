@@ -14,12 +14,14 @@ from app.schemas.user import (
     CheckUsername,
     RequestAddPoints
 )
-from firebase_admin import auth
+from firebase_admin import auth, storage
 from app.deps.firebase import db
 from datetime import date, datetime
 from app.deps.encrypt import encrypt, decrypt
+import os
 
 router = APIRouter()
+
 
 @router.post("/register", response_model=ResponseRegister, status_code=status.HTTP_201_CREATED)
 async def register_user(
@@ -417,6 +419,45 @@ async def add_points(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="User not found",
             )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
+
+@router.put("/user/{user_uid}/update-profile", status_code=status.HTTP_200_OK)
+async def update_profile(user_uid: str, file: UploadFile = File(...)):
+    try:
+        doc_ref = db.collection('users').document(user_uid)
+        doc_snapshot = doc_ref.get()
+        if not doc_snapshot.exists:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="User not found",
+            )
+
+        data = doc_snapshot.to_dict()
+        username = data.get('username')
+
+        filename, file_extension = os.path.splitext(file.filename)
+
+        unique_filename = f"{username}-{filename}"
+        renamed_filename = f"{unique_filename}{file_extension}"
+
+        bucket = storage.bucket()
+
+        blob = bucket.blob(renamed_filename)
+        blob.upload_from_file(file.file)
+        blob.make_public()
+
+        image_url = blob.public_url
+
+        doc_ref.update({
+            'profile_image': image_url
+        })
+
+        return {"image_url": image_url}
+
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

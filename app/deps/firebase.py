@@ -19,5 +19,6 @@ cred = credentials.Certificate({
     "universal_domain": os.getenv("FIREBASE_UNIVERSAL_DOMAIN")
 })
 
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred, {'storageBucket': 'hidup-sehat-server.appspot.com'})
+
 db = firestore.client()
