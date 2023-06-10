@@ -22,6 +22,7 @@ load_dotenv()
 
 data = json.loads(os.getenv("FIREBASE"))
 cred = credentials.Certificate(data)
+#add
 
 firebase_admin.initialize_app(cred, {'storageBucket': 'hidup-sehat-server.appspot.com'})
 db = firestore.client()
