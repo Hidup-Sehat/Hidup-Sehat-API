@@ -57,11 +57,21 @@ class UpdatePassword(BaseModel):
 
 
 class LeaderboardEntry(BaseModel):
+    user_uid: str
     username: str
-    name: str
-    points: int
+    imgUrl: str
+    point: int
 
-class GetLeaderboard(BaseModel):
+class GetWeeklyLeaderboard(BaseModel):
+    _id: str
+    weekEndDate: str
+    weekStartDate: str
+    data: List[LeaderboardEntry]
+
+class GetMonthlyLeaderboard(BaseModel):
+    _id: str
+    monthStartDate: str
+    monthEndDate: str
     data: List[LeaderboardEntry]
 
 class CheckUsername(BaseModel):

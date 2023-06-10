@@ -9,7 +9,8 @@ from app.schemas.user import (
     ResponseLogin,
     UpdateProfile,
     UpdatePassword,
-    GetLeaderboard,
+    GetWeeklyLeaderboard,
+    GetMonthlyLeaderboard,
     GetUserData,
     CheckUsername,
     RequestAddPoints
@@ -17,6 +18,7 @@ from app.schemas.user import (
 from firebase_admin import auth, storage
 from app.deps.firebase import db
 from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from app.deps.encrypt import encrypt, decrypt
 from app.deps.leaderboard import update_weekly_leaderboard, update_monthly_leaderboard
 import os
@@ -324,35 +326,67 @@ async def update_password(
             detail=str(e),
         )
 
-@router.get("/leaderboard", response_model=GetLeaderboard, status_code=status.HTTP_200_OK)
-async def get_leaderboard() -> GetLeaderboard:
+@router.get("/weekly-leaderboard", response_model=GetWeeklyLeaderboard , status_code=status.HTTP_200_OK)
+async def get_leaderboard() -> GetWeeklyLeaderboard:
     try:
-        users_ref = db.collection('users')
-        query = users_ref.order_by('points')
-        docs = query.stream()
+        today = datetime.now().date()
+        current_week_start = today - timedelta(days=today.weekday())
+        current_week_end = current_week_start + timedelta(days=6)
+        week_id = f"{current_week_start.strftime('%d-%m-%Y')}_{current_week_end.strftime('%d-%m-%Y')}"
+        print(week_id)
 
-        leaderboard = []
+        doc_ref = db.collection('weekly-leaderboard').document(week_id)
+        leaderboard_doc = doc_ref.get()
 
-        for doc in docs:
-            data = doc.to_dict()
-            name = data.get('name')
-            username = data.get('username')
-            points = data.get('points')
+        if leaderboard_doc.exists:
+            leaderboard = leaderboard_doc.get('leaderboard')
+            return GetWeeklyLeaderboard(
+                _id = week_id,
+                weekStartDate = leaderboard_doc.get('weekStartDate'),
+                weekEndDate = leaderboard_doc.get('weekEndDate'),
+                data = leaderboard
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(e),
+            )
 
-            leaderboard.append({
-                'name': name,
-                'username': username,
-                'points': points
-            })
-        
-        return GetLeaderboard(
-            message="Leaderboard retrieved",
-            data=leaderboard
-        )
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e),
+        )
+
+@router.get("/monthly-leaderboard", response_model=GetMonthlyLeaderboard, status_code=status.HTTP_200_OK)
+async def get_monthly_leaderboard() -> GetMonthlyLeaderboard:
+    try:
+        today = datetime.now().date()
+        current_month_start = today.replace(day=1)
+        current_month_end = (current_month_start + relativedelta(months=1) - timedelta(days=1))
+        month_id = current_month_start.strftime('%m-%Y')
+
+        doc_ref = db.collection('monthly-leaderboard').document(month_id)
+        leaderboard_doc = doc_ref.get()
+
+        if leaderboard_doc.exists:
+            leaderboard = leaderboard_doc.get('leaderboard')
+            return GetMonthlyLeaderboard(
+                _id=month_id,
+                monthStartDate=leaderboard_doc.get('monthStartDate'),
+                monthEndDate=leaderboard_doc.get('monthEndDate'),
+                data=leaderboard
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Monthly leaderboard not found"
+            )
+
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
         )
 
 @router.get("/user/availability/{username}", response_model=CheckUsername, status_code=status.HTTP_200_OK)
