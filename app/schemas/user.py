@@ -44,10 +44,11 @@ class CreateUserDetail(BaseModel):
 
 class UpdateProfile(BaseModel):
     # id: UUID
-    name: Optional[str] = Field(None, regex="^[a-z]{1,10}$")
+    name: Optional[str] = Field(None, regex="^[a-z\s]{1,10}$")
     contactNumber: Optional[str] = Field(None, regex="^(\+62|0)[0-9]{8,15}$")
     dateOfBirth: Optional[date] = Field(None, example="2000-01-01")
-    imgUrl: Optional[str] = Field(None, regex="^(http|https)://")
+    # Update pp di endpoint yang berbeda
+    # imgUrl: Optional[str] = Field(None, regex="^(http|https)://")
 
 class UpdatePassword(BaseModel):
     oldPassword: str

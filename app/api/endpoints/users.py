@@ -16,8 +16,9 @@ from app.schemas.user import (
 )
 from firebase_admin import auth, storage
 from app.deps.firebase import db
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from app.deps.encrypt import encrypt, decrypt
+from app.deps.leaderboard import update_weekly_leaderboard, update_monthly_leaderboard
 import os
 
 router = APIRouter()
@@ -151,6 +152,7 @@ async def create_user_detail(
         data = doc_snapshot.to_dict()
         username = request.username or data.get('username')
         name = request.name or data.get('name')
+        defaultProfilePic="https://firebasestorage.googleapis.com/v0/b/hidup-sehat-server.appspot.com/o/blank-profile.png?alt=media&token=416c3ef1-8c69-453c-b9c6-e35e390102b8&_gl=1*1z115oz*_ga*MjAzMzY5MDczOC4xNjg1MDM0NTY1*_ga_CW55HF8NVT*MTY4NjQxMTQyOC4yNC4xLjE2ODY0MTIyNjUuMC4wLjA."
         contactNumber = request.contactNumber or data.get('contactNumber')
         dateOfBirth = request.dateOfBirth or datetime.fromtimestamp(data.get('dateOfBirth'))
         gender = request.gender or data.get('gender')
@@ -177,7 +179,7 @@ async def create_user_detail(
             doc_ref.update({
                 'username': username,
                 'name': name,
-                'imgUrl': '',
+                'imgUrl': defaultProfilePic,
                 'contactNumber': contactNumber,
                 'dateOfBirth': datetime.combine(dateOfBirth, datetime.min.time()).timestamp(),
                 'age': age,
@@ -226,7 +228,6 @@ async def update_profile(
             )
         data = doc_snapshot.to_dict()
         name = request.name or data.get('name')
-        imgUrl = request.imgUrl or data.get('imgUrl')
         contactNumber = request.contactNumber or data.get('contactNumber')
 
         dateOfBirth = request.dateOfBirth or datetime.fromtimestamp(data.get('dateOfBirth'))
@@ -401,6 +402,11 @@ async def add_points(
                 doc_ref.update({
                     'points': new_points
                 })
+
+
+                update_weekly_leaderboard(db, user_uid, data.get('username'), data.get('imgUrl'), request.points)
+                update_monthly_leaderboard(db, user_uid, data.get('username'), data.get('imgUrl'), request.points)
+
                 return DefaultResponse(
                     message="Points added",
                     data={
@@ -453,7 +459,7 @@ async def update_profile(user_uid: str, file: UploadFile = File(...)):
         image_url = blob.public_url
 
         doc_ref.update({
-            'profile_image': image_url
+            'imgUrl': image_url
         })
 
         return {"image_url": image_url}
