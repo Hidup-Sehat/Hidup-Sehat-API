@@ -20,7 +20,7 @@ load_dotenv()
 #     "universal_domain": os.getenv("FIREBASE_UNIVERSAL_DOMAIN")
 # })
 
-data = json.loads(os.getenv("FIREBASE"))
+data = json.loads(os.environ.get("FIREBASE"))
 cred = credentials.Certificate(data)
 #add
 

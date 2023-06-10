@@ -101,6 +101,12 @@ async def get_all_activity():
                 movementId = md_data["id"]
                 # print(movementId)
                 
+                if doc_data["movementList"][movementId] is None:
+                    raise HTTPException(
+                        status_code=status.HTTP_404_NOT_FOUND,
+                        detail="Movement activity not found",
+                    )
+                
                 doc_data["movementList"][movementId].update({
                     "movementData": md_data
                 })
