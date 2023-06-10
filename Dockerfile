@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir --upgrade -r requirements.txt 
+RUN pip install --no-cache-dir -r requirements.txt 
 
 COPY . .
 
@@ -15,8 +15,8 @@ COPY . .
 # RUN python generate_auth_key.py
 
 # Install NLTK and download the resources
-RUN pip install nltk
-RUN python -c "import nltk; nltk.download('stopwords')"
+# RUN pip install nltk
+# RUN python -c "import nltk; nltk.download('stopwords')"
 
 EXPOSE 8080
 
