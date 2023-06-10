@@ -41,7 +41,7 @@ async def register_user(
                 'email': user.email,
                 'username': user.display_name,
                 'password': encrypt(request.password),
-                'registeredAt': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+                'registeredAt': datetime.now(),
             })
             return ResponseRegister(
                 message="Register success",
@@ -137,7 +137,7 @@ async def create_user_detail(
                     'id': user.uid,
                     'email': user.email,
                     'username': user.display_name,
-                        'registeredAt': datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+                        'registeredAt': datetime.now(),
                 })
                 doc_ref = db.collection('users').document(user_uid)
                 doc_snapshot = doc_ref.get()

@@ -5,7 +5,7 @@ from datetime import date
 from typing import List, Optional
 
 class GetActivityMovement(BaseModel):
-    id: str
+    id: int
     sudutSikuKanan: int
     sudutSikuKiri: int
     sudutKetiakKanan: int
@@ -23,6 +23,7 @@ class GetMovementList(BaseModel):
     movementName: str
     movementDesc: str
     imgUrl: str
+    movementData: GetActivityMovement
 
 class GetActivity(BaseModel):
     id: str
