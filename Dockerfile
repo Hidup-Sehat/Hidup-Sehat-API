@@ -18,6 +18,8 @@ COPY . .
 RUN pip install nltk
 RUN python -c "import nltk; nltk.download('stopwords')"
 
+ENV PYTHON
+
 EXPOSE 8080
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
