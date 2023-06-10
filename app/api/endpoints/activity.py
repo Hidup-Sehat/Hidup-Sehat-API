@@ -94,8 +94,21 @@ async def get_all_activity():
 
         for doc in docs:
             doc_data = doc.to_dict()
+            movementData = db.collection('activities').document(doc.id).collection('movementList').get()
+
+            for md in movementData:
+                md_data = md.to_dict()
+                movementId = md_data["id"]
+                # print(movementId)
+                
+                doc_data["movementList"][movementId].update({
+                    "movementData": md_data
+                })
+
             activity.append(doc_data)
 
+        # print(activity[0])
+        
         return GetAllActivity(activity=activity)
     except ValueError as e:
         raise HTTPException(

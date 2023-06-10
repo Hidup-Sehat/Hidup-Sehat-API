@@ -1,5 +1,5 @@
 from fastapi import APIRouter, FastAPI
-from .endpoints import users, homes, activity, feeds
+from .endpoints import users, homes, activity, feeds, emotion, foods
 from app.core.config import settings
 from app.deps.firebase import db
 from app.deps.encrypt import generate_key
@@ -29,6 +29,14 @@ def create_app():
         feeds.router,
         prefix=f"{settings.API_PATH}",
         tags=["Feeds"])
+    app.include_router(
+        emotion.router,
+        prefix=f"{settings.API_PATH}",
+        tags=["Emotion"])
+    app.include_router(
+        foods.router,
+        prefix=f"{settings.API_PATH}",
+        tags=["Foods"])
     
     # Example of using firebase
     @app.get("/test/{user_id}")
