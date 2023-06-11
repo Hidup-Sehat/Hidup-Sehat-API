@@ -1,13 +1,75 @@
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from app.deps.firebase import db
 
-def update_weekly_leaderboard(db, user_uid, username, imgUrl, points):
+def get_week_id() -> str:
     today = datetime.now().date()
-    current_week_start = today - timedelta(days=today.weekday())
-    current_week_end = current_week_start + timedelta(days=6)
+    start_of_week = today - timedelta(days=today.weekday())
+    end_of_week = start_of_week + timedelta(days=6)
+    return f"{start_of_week.strftime('%d-%m-%Y')}_{end_of_week.strftime('%d-%m-%Y')}"
 
-    week_id = f"{current_week_start.strftime('%d-%m-%Y')}_{current_week_end.strftime('%d-%m-%Y')}"
-    print(week_id)
+def get_month_id() -> str:
+    today = datetime.now().date()
+    month_year = today.strftime('%m-%Y')
+    return month_year
+
+def update_total_points(user_uid: str, points: int) -> int:
+    user_ref = db.collection('users').document(user_uid)
+    doc_snapshot = user_ref.get()
+
+    if doc_snapshot.exists:
+        data = doc_snapshot.to_dict()
+        current_total_points = data.get('totalPoints', 0)
+        new_total_point = current_total_points + points
+
+        try:
+            user_ref.update({
+                'totalPoints': new_total_point
+            })
+            return new_total_point
+        except ValueError as e:
+            raise ValueError(str(e))
+    else:
+        raise ValueError("User not found")
+
+def update_weekly_points(user_uid: str, weekly_point_id: str, points: int) -> int:
+    user_ref = db.collection('users').document(user_uid)
+    weekly_points_ref = user_ref.collection("weekly-points").document(weekly_point_id)
+
+    existing_weekly_points = 0
+    combined_weekly_points = 0
+
+    if weekly_points_ref.get().exists:
+        existing_weekly_points = weekly_points_ref.get().to_dict().get("points", 0)
+        combined_weekly_points = existing_weekly_points + points
+
+    weekly_points_result = {
+        "points": combined_weekly_points
+    }
+
+    weekly_points_ref.set(weekly_points_result)
+    return combined_weekly_points
+
+def update_monthly_points(user_uid: str, monthly_point_id: str, points: int) -> int:
+    user_ref = db.collection('users').document(user_uid)
+    monthly_points_ref = user_ref.collection("monthly-points").document(monthly_point_id)
+
+    existing_monthly_points = 0
+    combined_monthly_points = 0
+
+    if monthly_points_ref.get().exists:
+        existing_monthly_points = monthly_points_ref.get().to_dict().get("points", 0)
+        combined_monthly_points = existing_monthly_points + points
+
+    monthly_points_result = {
+        "points": combined_monthly_points
+    }
+
+    monthly_points_ref.set(monthly_points_result)
+    return combined_monthly_points
+
+def update_weekly_leaderboard(user_uid, username, imgUrl, points):
+    week_id = get_week_id()
 
     doc_ref = db.collection('weekly-leaderboard').document(week_id)
 
@@ -57,13 +119,12 @@ def update_weekly_leaderboard(db, user_uid, username, imgUrl, points):
         })
 
 
-def update_monthly_leaderboard(db, user_uid, username, imgUrl, points):
+def update_monthly_leaderboard(user_uid, username, imgUrl, points):
     today = datetime.now().date()
     current_month_start = today.replace(day=1)
     current_month_end = (current_month_start + relativedelta(months=1) - timedelta(days=1))
 
     month_id = current_month_start.strftime('%m-%Y')
-    print(month_id)
 
     doc_ref = db.collection('monthly-leaderboard').document(month_id)
 

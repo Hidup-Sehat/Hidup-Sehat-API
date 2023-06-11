@@ -20,7 +20,15 @@ from app.deps.firebase import db
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from app.deps.encrypt import encrypt, decrypt
-from app.deps.leaderboard import update_weekly_leaderboard, update_monthly_leaderboard
+from app.deps.leaderboard import (
+    get_week_id, 
+    get_month_id, 
+    update_total_points, 
+    update_weekly_points, 
+    update_monthly_points,
+    update_weekly_leaderboard, 
+    update_monthly_leaderboard
+)
 import os
 
 router = APIRouter()
@@ -414,46 +422,74 @@ async def check_username_availability(
             detail=str(e),
         )
 
-# @router.post("/user/{user_uid}/update-profile-image", status_code=status.HTTP_200_OK)
-# async def upload_image(file: UploadFile = UploadFile(...)):
-
-@router.put("/user/{user_uid}/add-points", status_code=status.HTTP_200_OK)
-async def add_points(
-    user_uid: str,
-    request: RequestAddPoints
+@router.get("/user/{user_uid}/point", status_code=status.HTTP_200_OK)
+async def get_points(
+    user_uid: str
 ):
     try:
-        print(user_uid)
         doc_ref = db.collection('users').document(user_uid)
         doc_snapshot = doc_ref.get()
 
         if doc_snapshot.exists:
             data = doc_snapshot.to_dict()
-            current_points = data.get('points', 0)  # Set default points to 0 if not found
-            new_points = current_points + request.points
+            return {
+                'points': data.get('points', 0)
+            }
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found",
+            )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+)
 
-            try:
-                doc_ref.update({
-                    'points': new_points
-                })
+@router.put("/user/{user_uid}/point", status_code=status.HTTP_200_OK)
+async def add_points(
+    user_uid: str,
+    request: RequestAddPoints
+):
+    try:
+        today = datetime.now().date()
+        start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        weekly_point_id = f"{start_of_week.strftime('%d-%m-%Y')}_{end_of_week.strftime('%d-%m-%Y')}"
 
+        # Calculate the monthly point ID
+        month_year = today.strftime('%m-%Y')
+        monthly_point_id = month_year
 
-                update_weekly_leaderboard(db, user_uid, data.get('username'), data.get('imgUrl'), request.points)
-                update_monthly_leaderboard(db, user_uid, data.get('username'), data.get('imgUrl'), request.points)
+        user_ref = db.collection('users').document(user_uid)
+        doc_snapshot = user_ref.get()
 
-                return DefaultResponse(
-                    message="Points added",
-                    data={
-                        'previous_points': current_points,
-                        'points_added': request.points,
-                        'points': new_points
-                    }
-                )
-            except ValueError as e:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=str(e),
-                )
+        if doc_snapshot.exists:
+            weekly_point_id = get_week_id()
+            monthly_point_id = get_month_id()
+            data = doc_snapshot.to_dict()
+
+            # Update total points
+            new_total_point = update_total_points(user_uid, request.points)
+
+            # Update weekly points
+            combined_weekly_points = update_weekly_points(user_uid, weekly_point_id, request.points)
+
+            # Update monthly points
+            combined_monthly_points = update_monthly_points(user_uid, monthly_point_id, request.points)
+
+            update_weekly_leaderboard(user_uid, data.get('username'), data.get('imgUrl'), request.points)
+
+            update_monthly_leaderboard(user_uid, data.get('username'), data.get('imgUrl'), request.points)
+
+            return DefaultResponse(
+                message="Points added",
+                data={
+                    'previous_points': data.get('totalPoints', 0),
+                    'points_added': request.points,
+                    'points': new_total_point
+                }
+            )
         else:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
