@@ -433,7 +433,7 @@ async def get_points(
         if doc_snapshot.exists:
             data = doc_snapshot.to_dict()
             return {
-                'points': data.get('points', 0)
+                'total-points': data.get('totalPoints', 0)
             }
         else:
             raise HTTPException(
