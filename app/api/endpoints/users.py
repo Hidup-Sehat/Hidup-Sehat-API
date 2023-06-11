@@ -478,9 +478,9 @@ async def add_points(
             # Update monthly points
             combined_monthly_points = update_monthly_points(user_uid, monthly_point_id, request.points)
 
-            update_weekly_leaderboard(user_uid, data.get('username'), data.get('imgUrl'), request.points)
+            update_weekly_leaderboard(user_uid, data.get('username'), data.get('name'), data.get('imgUrl'), request.points)
 
-            update_monthly_leaderboard(user_uid, data.get('username'), data.get('imgUrl'), request.points)
+            update_monthly_leaderboard(user_uid, data.get('username'), data.get('name'), data.get('imgUrl'), request.points)
 
             return DefaultResponse(
                 message="Points added",

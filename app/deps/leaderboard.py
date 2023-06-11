@@ -68,7 +68,7 @@ def update_monthly_points(user_uid: str, monthly_point_id: str, points: int) -> 
     monthly_points_ref.set(monthly_points_result)
     return combined_monthly_points
 
-def update_weekly_leaderboard(user_uid, username, imgUrl, points):
+def update_weekly_leaderboard(user_uid, username, name, imgUrl, points):
     week_id = get_week_id()
 
     doc_ref = db.collection('weekly-leaderboard').document(week_id)
@@ -80,6 +80,7 @@ def update_weekly_leaderboard(user_uid, username, imgUrl, points):
         new_entry = {
             'user_uid': user_uid,
             'username': username,
+            'name': name,
             'imgUrl': imgUrl,
             'point': points
         }
@@ -105,6 +106,7 @@ def update_weekly_leaderboard(user_uid, username, imgUrl, points):
         new_entry = {
             'user_uid': user_uid,
             'username': username,
+            'name': name,
             'imgUrl': imgUrl,
             'point': points
         }
@@ -119,7 +121,7 @@ def update_weekly_leaderboard(user_uid, username, imgUrl, points):
         })
 
 
-def update_monthly_leaderboard(user_uid, username, imgUrl, points):
+def update_monthly_leaderboard(user_uid, username, name, imgUrl, points):
     today = datetime.now().date()
     current_month_start = today.replace(day=1)
     current_month_end = (current_month_start + relativedelta(months=1) - timedelta(days=1))
@@ -135,6 +137,7 @@ def update_monthly_leaderboard(user_uid, username, imgUrl, points):
         new_entry = {
             'user_uid': user_uid,
             'username': username,
+            'name': name,
             'imgUrl': imgUrl,
             'point': points
         }
@@ -160,6 +163,7 @@ def update_monthly_leaderboard(user_uid, username, imgUrl, points):
         new_entry = {
             'user_uid': user_uid,
             'username': username,
+            'name': name,
             'imgUrl': imgUrl,
             'point': points
         }

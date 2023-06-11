@@ -59,6 +59,7 @@ class UpdatePassword(BaseModel):
 class LeaderboardEntry(BaseModel):
     user_uid: str
     username: str
+    name: str
     imgUrl: str
     point: int
 
