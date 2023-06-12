@@ -20,7 +20,7 @@ async def create_food(
         data = {
             "date": request.date,
             "lastUpdated": request.lastUpdated,
-            "asupanKalori": request.asupanKalori,
+            # "asupanKalori": request.asupanKalori,
             "totalKarbohidrat": request.totalKarbohidrat,
             "totalLemak": request.totalLemak,
             "totalSerat": request.totalSerat,
@@ -55,7 +55,7 @@ async def update_food(
         data = {
             "id": request.id,
             "date": request.date,
-            "asupanKalori": request.asupanKalori,
+            # "asupanKalori": request.asupanKalori,
             "totalKarbohidrat": request.totalKarbohidrat,
             "totalLemak": request.totalLemak,
             "totalSerat": request.totalSerat,
