@@ -18,7 +18,7 @@ COPY . .
 # RUN pip install nltk
 # RUN python -c "import nltk; nltk.download('stopwords')"
 
-ENV PYTHONUNBUFFERED=
+ENV PYTHONUNBUFFERED=1
 
 EXPOSE 8080
 
