@@ -71,6 +71,10 @@ def update_monthly_points(user_uid: str, monthly_point_id: str, points: int) -> 
 def update_weekly_leaderboard(user_uid, username, name, imgUrl, points):
     week_id = get_week_id()
 
+    today = datetime.now().date()
+    start_of_week = today - timedelta(days=today.weekday())
+    end_of_week = start_of_week + timedelta(days=6)
+
     doc_ref = db.collection('weekly-leaderboard').document(week_id)
 
     leaderboard_doc = doc_ref.get()
@@ -115,8 +119,8 @@ def update_weekly_leaderboard(user_uid, username, name, imgUrl, points):
 
         doc_ref.set({
             '_id': week_id,
-            'weekStartDate': current_week_start.strftime('%d-%m-%Y'),
-            'weekEndDate': current_week_end.strftime('%d-%m-%Y'),
+            'weekStartDate': start_of_week.strftime('%d-%m-%Y'),
+            'weekEndDate': end_of_week.strftime('%d-%m-%Y'),
             'leaderboard': leaderboard
         })
 

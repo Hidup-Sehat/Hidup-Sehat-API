@@ -357,7 +357,7 @@ async def get_leaderboard() -> GetWeeklyLeaderboard:
         else:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail=str(e),
+                detail="Leaderboard not found or Nobody has gained point yet this week",
             )
 
     except ValueError as e:
@@ -388,7 +388,7 @@ async def get_monthly_leaderboard() -> GetMonthlyLeaderboard:
         else:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="Monthly leaderboard not found"
+                detail="Monthly leaderboard not found or Nobody has gained point yet this month",
             )
 
     except ValueError as e:
