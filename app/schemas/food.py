@@ -8,6 +8,7 @@ class SingleFood(BaseModel):
     id: str 
     namaMakanan: str = Field(None, example="Nasi")
     porsi: str = Field(None, example="1 100 gram")
+    kal: int = Field(None, example=100)
     # kalori: int = Field(None, example=200)
     # karbohidrat: int = Field(None, example=200)
     # lemak: int = Field(None, example=200)
