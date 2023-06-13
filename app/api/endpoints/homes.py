@@ -10,12 +10,12 @@ from app.deps.firebase import db
 
 router = APIRouter()
 
-@router.get("/user/{user_id}/", response_model=GetUserDetail, status_code=status.HTTP_200_OK)
+@router.get("/user/{user_uid}/", response_model=GetUserDetail, status_code=status.HTTP_200_OK)
 async def get_user_detail(
-    user_id: str,
+    user_uid: str,
 ):
     try:
-        user = db.collection('users').document(user_id).get()
+        user = db.collection('users').document(user_uid).get()
 
         if not user.exists:
             raise HTTPException(
