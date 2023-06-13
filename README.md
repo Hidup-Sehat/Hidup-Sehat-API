@@ -1,4 +1,3 @@
-
 # HidupSehat API
 
 The HidupSehat is a FastAPI-based API designed for mobile apps that focus on promoting a healthy lifestyle. Powered by machine learning, it offers seamless integration with Firebase Firestore. Can be accessed at 
@@ -85,8 +84,10 @@ API should be started locally, access the backend via [http://localhost:8000](ht
 
 We would like to acknowledge the following individuals and projects for their contributions to the development of the HidupSehat API:
 
+
 - [FastAPI](https://fastapi.tiangolo.com/) The FastAPI framework provided a solid foundation for building the API.
 - [Firebase Firestore](https://firebase.google.com/) Firebase Firestore enabled efficient data management and seamless integration with the HidupSehat API.
 - [Docker](https://www.docker.com/) Docker made it easy to containerize the HidupSehat API for deployment on Cloud Run.
 - [Readme.so](https://readme.so) & [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for making it easy to create a beautiful README.md
 - HidupSehat Team for putting on hardwork and efforts such to make this Capstone Project successful
+
