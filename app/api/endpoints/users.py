@@ -9,15 +9,26 @@ from app.schemas.user import (
     ResponseLogin,
     UpdateProfile,
     UpdatePassword,
-    GetLeaderboard,
+    GetWeeklyLeaderboard,
+    GetMonthlyLeaderboard,
     GetUserData,
     CheckUsername,
     RequestAddPoints
 )
 from firebase_admin import auth, storage
 from app.deps.firebase import db
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from app.deps.encrypt import encrypt, decrypt
+from app.deps.leaderboard import (
+    get_week_id, 
+    get_month_id, 
+    update_total_points, 
+    update_weekly_points, 
+    update_monthly_points,
+    update_weekly_leaderboard, 
+    update_monthly_leaderboard
+)
 import os
 
 router = APIRouter()
@@ -151,6 +162,7 @@ async def create_user_detail(
         data = doc_snapshot.to_dict()
         username = request.username or data.get('username')
         name = request.name or data.get('name')
+        defaultProfilePic="https://firebasestorage.googleapis.com/v0/b/hidup-sehat-server.appspot.com/o/blank-profile.png?alt=media&token=416c3ef1-8c69-453c-b9c6-e35e390102b8&_gl=1*1z115oz*_ga*MjAzMzY5MDczOC4xNjg1MDM0NTY1*_ga_CW55HF8NVT*MTY4NjQxMTQyOC4yNC4xLjE2ODY0MTIyNjUuMC4wLjA."
         contactNumber = request.contactNumber or data.get('contactNumber')
         dateOfBirth = request.dateOfBirth or datetime.fromtimestamp(data.get('dateOfBirth'))
         gender = request.gender or data.get('gender')
@@ -177,7 +189,7 @@ async def create_user_detail(
             doc_ref.update({
                 'username': username,
                 'name': name,
-                'imgUrl': '',
+                'imgUrl': defaultProfilePic,
                 'contactNumber': contactNumber,
                 'dateOfBirth': datetime.combine(dateOfBirth, datetime.min.time()).timestamp(),
                 'age': age,
@@ -226,7 +238,6 @@ async def update_profile(
             )
         data = doc_snapshot.to_dict()
         name = request.name or data.get('name')
-        imgUrl = request.imgUrl or data.get('imgUrl')
         contactNumber = request.contactNumber or data.get('contactNumber')
 
         dateOfBirth = request.dateOfBirth or datetime.fromtimestamp(data.get('dateOfBirth'))
@@ -323,35 +334,67 @@ async def update_password(
             detail=str(e),
         )
 
-@router.get("/leaderboard", response_model=GetLeaderboard, status_code=status.HTTP_200_OK)
-async def get_leaderboard() -> GetLeaderboard:
+@router.get("/weekly-leaderboard", response_model=GetWeeklyLeaderboard , status_code=status.HTTP_200_OK)
+async def get_leaderboard() -> GetWeeklyLeaderboard:
     try:
-        users_ref = db.collection('users')
-        query = users_ref.order_by('points')
-        docs = query.stream()
+        today = datetime.now().date()
+        current_week_start = today - timedelta(days=today.weekday())
+        current_week_end = current_week_start + timedelta(days=6)
+        week_id = f"{current_week_start.strftime('%d-%m-%Y')}_{current_week_end.strftime('%d-%m-%Y')}"
+        print(week_id)
 
-        leaderboard = []
+        doc_ref = db.collection('weekly-leaderboard').document(week_id)
+        leaderboard_doc = doc_ref.get()
 
-        for doc in docs:
-            data = doc.to_dict()
-            name = data.get('name')
-            username = data.get('username')
-            points = data.get('points')
+        if leaderboard_doc.exists:
+            leaderboard = leaderboard_doc.get('leaderboard')
+            return GetWeeklyLeaderboard(
+                _id = week_id,
+                weekStartDate = leaderboard_doc.get('weekStartDate'),
+                weekEndDate = leaderboard_doc.get('weekEndDate'),
+                data = leaderboard
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Leaderboard not found or Nobody has gained point yet this week",
+            )
 
-            leaderboard.append({
-                'name': name,
-                'username': username,
-                'points': points
-            })
-        
-        return GetLeaderboard(
-            message="Leaderboard retrieved",
-            data=leaderboard
-        )
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e),
+        )
+
+@router.get("/monthly-leaderboard", response_model=GetMonthlyLeaderboard, status_code=status.HTTP_200_OK)
+async def get_monthly_leaderboard() -> GetMonthlyLeaderboard:
+    try:
+        today = datetime.now().date()
+        current_month_start = today.replace(day=1)
+        current_month_end = (current_month_start + relativedelta(months=1) - timedelta(days=1))
+        month_id = current_month_start.strftime('%m-%Y')
+
+        doc_ref = db.collection('monthly-leaderboard').document(month_id)
+        leaderboard_doc = doc_ref.get()
+
+        if leaderboard_doc.exists:
+            leaderboard = leaderboard_doc.get('leaderboard')
+            return GetMonthlyLeaderboard(
+                _id=month_id,
+                monthStartDate=leaderboard_doc.get('monthStartDate'),
+                monthEndDate=leaderboard_doc.get('monthEndDate'),
+                data=leaderboard
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Monthly leaderboard not found or Nobody has gained point yet this month",
+            )
+
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
         )
 
 @router.get("/user/availability/{username}", response_model=CheckUsername, status_code=status.HTTP_200_OK)
@@ -379,41 +422,74 @@ async def check_username_availability(
             detail=str(e),
         )
 
-# @router.post("/user/{user_uid}/update-profile-image", status_code=status.HTTP_200_OK)
-# async def upload_image(file: UploadFile = UploadFile(...)):
-
-@router.put("/user/{user_uid}/add-points", status_code=status.HTTP_200_OK)
-async def add_points(
-    user_uid: str,
-    request: RequestAddPoints
+@router.get("/user/{user_uid}/point", status_code=status.HTTP_200_OK)
+async def get_points(
+    user_uid: str
 ):
     try:
-        print(user_uid)
         doc_ref = db.collection('users').document(user_uid)
         doc_snapshot = doc_ref.get()
 
         if doc_snapshot.exists:
             data = doc_snapshot.to_dict()
-            current_points = data.get('points', 0)  # Set default points to 0 if not found
-            new_points = current_points + request.points
+            return {
+                'total-points': data.get('totalPoints', 0)
+            }
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found",
+            )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+)
 
-            try:
-                doc_ref.update({
-                    'points': new_points
-                })
-                return DefaultResponse(
-                    message="Points added",
-                    data={
-                        'previous_points': current_points,
-                        'points_added': request.points,
-                        'points': new_points
-                    }
-                )
-            except ValueError as e:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail=str(e),
-                )
+@router.put("/user/{user_uid}/point", status_code=status.HTTP_200_OK)
+async def add_points(
+    user_uid: str,
+    request: RequestAddPoints
+):
+    try:
+        today = datetime.now().date()
+        start_of_week = today - timedelta(days=today.weekday())
+        end_of_week = start_of_week + timedelta(days=6)
+        weekly_point_id = f"{start_of_week.strftime('%d-%m-%Y')}_{end_of_week.strftime('%d-%m-%Y')}"
+
+        # Calculate the monthly point ID
+        month_year = today.strftime('%m-%Y')
+        monthly_point_id = month_year
+
+        user_ref = db.collection('users').document(user_uid)
+        doc_snapshot = user_ref.get()
+
+        if doc_snapshot.exists:
+            weekly_point_id = get_week_id()
+            monthly_point_id = get_month_id()
+            data = doc_snapshot.to_dict()
+
+            # Update total points
+            new_total_point = update_total_points(user_uid, request.points)
+
+            # Update weekly points
+            combined_weekly_points = update_weekly_points(user_uid, weekly_point_id, request.points)
+
+            # Update monthly points
+            combined_monthly_points = update_monthly_points(user_uid, monthly_point_id, request.points)
+
+            update_weekly_leaderboard(user_uid, data.get('username'), data.get('name'), data.get('imgUrl'), request.points)
+
+            update_monthly_leaderboard(user_uid, data.get('username'), data.get('name'), data.get('imgUrl'), request.points)
+
+            return DefaultResponse(
+                message="Points added",
+                data={
+                    'previous_points': data.get('totalPoints', 0),
+                    'points_added': request.points,
+                    'points': new_total_point
+                }
+            )
         else:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -453,7 +529,7 @@ async def update_profile(user_uid: str, file: UploadFile = File(...)):
         image_url = blob.public_url
 
         doc_ref.update({
-            'profile_image': image_url
+            'imgUrl': image_url
         })
 
         return {"image_url": image_url}

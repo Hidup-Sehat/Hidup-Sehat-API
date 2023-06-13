@@ -7,6 +7,7 @@ import re
 # from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 # from markupsafe import escape, soft_str
 # from nltk.corpus import stopwords
+<<<<<<< HEAD
 
 # get Indonesian stopword 
 # list_stopwords = set(stopwords.words('indonesian'))
@@ -769,9 +770,17 @@ list_stopwords = ['ada',
  'yang']
 
 
+=======
+from app.deps.feed.stopword import stopword
+
+# # get Indonesian stopword 
+# list_stopwords = set(stopwords.words('indonesian'))
+>>>>>>> 078557a1d39d4154e98cbe6a93aacf59619d3b90
 
 # fact = StemmerFactory()
 # stemmer = fact.create_stemmer()
+
+list_stopwords = stopword
 
 class Recommendation():
     def __init__(self,dataframe,user_input):

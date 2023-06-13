@@ -19,6 +19,11 @@ import json
 #     "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_X509_CERT_URL"),
 #     "universal_domain": os.getenv("FIREBASE_UNIVERSAL_DOMAIN")
 # })
+<<<<<<< HEAD
+=======
+data = json.loads(os.getenv("FIREBASE"))
+cred = credentials.Certificate(data)
+>>>>>>> 078557a1d39d4154e98cbe6a93aacf59619d3b90
 
 data = json.loads(os.getenv("FIREBASE"))
 cred = credentials.Certificate(data)
