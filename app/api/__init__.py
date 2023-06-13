@@ -4,13 +4,12 @@ from app.core.config import settings
 from app.deps.firebase import db
 from app.deps.encrypt import generate_key
 
-# from app.api import utils
-
 api_router = APIRouter()
 
 def create_app():
     app = FastAPI()
 
+    # GENERATE KEY for encryption & decryption
     # generate_key()
 
     app.include_router(
@@ -37,15 +36,5 @@ def create_app():
         foods.router,
         prefix=f"{settings.API_PATH}",
         tags=["Foods"])
-    
-    # Example of using firebase
-    @app.get("/test/{user_id}")
-    async def get_user(user_id: str):
-        doc_ref = db.collection('user').document(user_id)
-        doc = doc_ref.get()
-        print(doc.to_dict())
-        if doc.exists:
-            return doc.to_dict()
-        else:
-            return None
+
     return app
