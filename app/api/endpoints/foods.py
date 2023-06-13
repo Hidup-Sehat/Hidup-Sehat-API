@@ -30,10 +30,17 @@ async def create_food(
             ]
         }
         
+        dateExist = db.collection('users').document(userId).collection('food').where('date', '==', datetime.combine(request.date, datetime.min.time())).get()
+        if len(dateExist) > 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Food for the date is already exist, please use PUT",
+            )
+        
         doc_ref = db.collection('users').document(userId).collection('food').document()
 
         data["id"] = doc_ref.id
-        data["date"] = datetime.combine(date.today(), datetime.min.time())
+        data["date"] = datetime.combine(request.date, datetime.min.time())
         data["lastUpdated"] = datetime.now()
         doc_ref.set(data)
         return DefaultResponse(
@@ -64,7 +71,7 @@ async def update_food(
                 get_food.dict() for get_food in request.makanan
             ]
         }
-        doc_ref = db.collection('users').document(userId).collection('food').where('date', '==', datetime.combine(date.today(), datetime.min.time())).get()
+        doc_ref = db.collection('users').document(userId).collection('food').where('date', '==', datetime.combine(request.date, datetime.min.time())).get()
         if len(list(doc_ref)) == 0:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -73,7 +80,7 @@ async def update_food(
         
         doc_ref = db.collection('users').document(userId).collection('food').document(doc_ref[0].id)
         
-        data["date"] = datetime.combine(date.today(), datetime.min.time())
+        data["date"] = datetime.combine(request.date, datetime.min.time())
         data["lastUpdated"] = datetime.now()
 
         doc_ref.update(data)
@@ -90,10 +97,10 @@ async def update_food(
 
 @router.get("/user/{userId}/food", response_model=GetAllFood, status_code=status.HTTP_200_OK)
 async def get_food(
-    userId: str
+    userId: str,
 ):
     try:
-        doc_ref = db.collection('users').document(userId).collection('food').where('date', '==', datetime.combine(date.today(), datetime.min.time())).get()
+        doc_ref = db.collection('users').document(userId).collection('food').get()
         data = []
         for doc in doc_ref:
             data.append(doc.to_dict())
