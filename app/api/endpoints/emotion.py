@@ -26,17 +26,17 @@ async def create_emotion(
             "note": request.note
         }
 
-        dateExist = db.collection('users').document(userId).collection('emotions').where('date', '==', datetime.combine(date.today(), datetime.min.time())).get()
+        dateExist = db.collection('users').document(userId).collection('emotions').where('date', '==', datetime.combine(request.date, datetime.min.time())).get()
         if len(dateExist) > 0:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Emotion for today already exist, please use PUT",
+                detail="Emotion for the date is already exist, please use PUT",
             )
 
         doc_ref = db.collection('users').document(userId).collection('emotions').document()
 
         data["id"] = doc_ref.id
-        data["date"] = datetime.combine(date.today(), datetime.min.time())
+        data["date"] = datetime.combine(request.date, datetime.min.time())
         data["lastUpdated"] = datetime.now()
         doc_ref.set(data)
         return DefaultResponse(
@@ -66,7 +66,7 @@ async def update_emotion(
             "note": request.note
         }
 
-        doc_ref = db.collection('users').document(userId).collection('emotions').where('date', '==', datetime.combine(date.today(), datetime.min.time())).get()
+        doc_ref = db.collection('users').document(userId).collection('emotions').where('date', '==', datetime.combine(request.date, datetime.min.time())).get()
         if len(list(doc_ref)) == 0:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
