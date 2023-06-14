@@ -19,7 +19,7 @@ async def create_food(
     try:
         data = {
             "date": request.date,
-            "lastUpdated": request.lastUpdated,
+            # "lastUpdated": request.lastUpdated,
             # "asupanKalori": request.asupanKalori,
             "totalKarbohidrat": request.totalKarbohidrat,
             "totalLemak": request.totalLemak,
@@ -60,7 +60,7 @@ async def update_food(
 ):
     try:
         data = {
-            "id": request.id,
+            # "id": request.id,
             "date": request.date,
             # "asupanKalori": request.asupanKalori,
             "totalKarbohidrat": request.totalKarbohidrat,
@@ -80,8 +80,10 @@ async def update_food(
         
         doc_ref = db.collection('users').document(user_uid).collection('food').document(doc_ref[0].id)
         
+        data["id"] = doc_ref.id
         data["date"] = datetime.combine(request.date, datetime.min.time())
         data["lastUpdated"] = datetime.now()
+        # print(data.get('lastUpdated'))
 
         doc_ref.update(data)
         return DefaultResponse(
@@ -104,6 +106,8 @@ async def get_food(
         data = []
         for doc in doc_ref:
             data.append(doc.to_dict())
+        
+        # print(data)
         return GetAllFood(
             food=data
         )

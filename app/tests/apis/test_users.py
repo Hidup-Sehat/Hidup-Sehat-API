@@ -20,7 +20,6 @@ def test_get_no_user(client: TestClient):
 #     data = resp.json().get("data")
 #     assert data[0]["id"] == str(category.id)
 
-
 # def test_get_empty_best_seller(client: TestClient):
 #     resp = client.get(f"{prefix}/best-seller")
 #     assert resp.status_code == 404
