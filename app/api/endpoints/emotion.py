@@ -19,7 +19,7 @@ async def create_emotion(
         data = {
             "id": request.id,
             "date": request.date,
-            "lastUpdated": request.lastUpdated,
+            "lastUpdated": datetime.now(),
             "emotionPositive": request.emotionPositive,
             "emotionNegative": request.emotionNegative,
             "emotionSource": request.emotionSource,
@@ -59,7 +59,7 @@ async def update_emotion(
         data = {
             "id": request.id,
             "date": request.date,
-            "lastUpdated": request.lastUpdated,
+            "lastUpdated": datetime.now(),
             "emotionPositive": request.emotionPositive,
             "emotionNegative": request.emotionNegative,
             "emotionSource": request.emotionSource,
@@ -75,8 +75,10 @@ async def update_emotion(
         
         doc_ref = db.collection('users').document(user_uid).collection('emotions').document(doc_ref[0].id)
 
+        data["id"] = doc_ref.id
         data["lastUpdated"] = datetime.now()
         data["date"] = datetime.combine(data["date"], datetime.min.time())
+        # print(data["lastUpdated"])
 
         doc_ref.update(data)
         return DefaultResponse(
@@ -104,7 +106,7 @@ async def get_emotion(
             doc_data = doc.to_dict()
             data.append(doc_data)
 
-        print(data)
+        # print(data)
         return GetEmotion(
             data=data
         )

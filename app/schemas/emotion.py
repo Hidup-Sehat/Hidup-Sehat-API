@@ -1,13 +1,13 @@
 from pydantic import BaseModel, Field
 from uuid import UUID
 from fastapi import Query
-from datetime import date
+from datetime import date, datetime
 from typing import List, Optional
 
 class Emotion(BaseModel):
-    id: str = Field(None, example="1")
+    id: int = Field(None, example=2)
     date: date
-    lastUpdated: date
+    lastUpdated: datetime
     emotionPositive: str = Field(None, example="Antusias,Gembira")
     emotionNegative: str = Field(None, example="Kecewa,Lesu")
     emotionSource: str = Field(None, example="Keluarga,Teman")
