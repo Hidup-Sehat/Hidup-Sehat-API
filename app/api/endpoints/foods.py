@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from app.schemas.default_schemas import DefaultResponse
 from app.schemas.food import (
     SingleFood,
-    GetAllFood,
+    GetFoodByDate,
     PostFood    
 )
 from datetime import date, datetime
@@ -19,8 +19,6 @@ async def create_food(
     try:
         data = {
             "date": request.date,
-            # "lastUpdated": request.lastUpdated,
-            # "asupanKalori": request.asupanKalori,
             "totalKarbohidrat": request.totalKarbohidrat,
             "totalLemak": request.totalLemak,
             "totalSerat": request.totalSerat,
@@ -32,12 +30,9 @@ async def create_food(
         
         dateExist = db.collection('users').document(user_uid).collection('food').where('date', '==', datetime.combine(request.date, datetime.min.time())).get()
         if len(dateExist) > 0:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Food for the date is already exist, please use PUT",
-            )
-        
-        doc_ref = db.collection('users').document(user_uid).collection('food').document()
+            doc_ref = db.collection('users').document(user_uid).collection('food').document(dateExist[0].id)
+        else:
+            doc_ref = db.collection('users').document(user_uid).collection('food').document()
 
         data["id"] = doc_ref.id
         data["date"] = datetime.combine(request.date, datetime.min.time())
@@ -53,62 +48,22 @@ async def create_food(
             detail=str(e),
         )
 
-@router.put("/user/{user_uid}/food", status_code=status.HTTP_200_OK)
-async def update_food(
+@router.get("/user/{user_uid}/food/{date}", response_model=GetFoodByDate, status_code=status.HTTP_200_OK)
+async def get_food(
     user_uid: str,
-    request: PostFood
+    date: date
 ):
     try:
-        data = {
-            # "id": request.id,
-            "date": request.date,
-            # "asupanKalori": request.asupanKalori,
-            "totalKarbohidrat": request.totalKarbohidrat,
-            "totalLemak": request.totalLemak,
-            "totalSerat": request.totalSerat,
-            "totalProtein": request.totalProtein,
-            "makanan": [
-                get_food.dict() for get_food in request.makanan
-            ]
-        }
-        doc_ref = db.collection('users').document(user_uid).collection('food').where('date', '==', datetime.combine(request.date, datetime.min.time())).get()
+        doc_ref = db.collection('users').document(user_uid).collection('food').where('date', '==', datetime.combine(date, datetime.min.time())).get()
+
         if len(list(doc_ref)) == 0:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Data not found on the date",
             )
-        
-        doc_ref = db.collection('users').document(user_uid).collection('food').document(doc_ref[0].id)
-        
-        data["id"] = doc_ref.id
-        data["date"] = datetime.combine(request.date, datetime.min.time())
-        data["lastUpdated"] = datetime.now()
-        # print(data.get('lastUpdated'))
+        data = doc_ref[0].to_dict()
 
-        doc_ref.update(data)
-        return DefaultResponse(
-            message="Food updated successfully",
-            data=data
-        )
-    
-    except ValueError as e:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=str(e),
-        )
-
-@router.get("/user/{user_uid}/food", response_model=GetAllFood, status_code=status.HTTP_200_OK)
-async def get_food(
-    user_uid: str,
-):
-    try:
-        doc_ref = db.collection('users').document(user_uid).collection('food').get()
-        data = []
-        for doc in doc_ref:
-            data.append(doc.to_dict())
-        
-        # print(data)
-        return GetAllFood(
+        return GetFoodByDate(
             food=data
         )
     except ValueError as e:
