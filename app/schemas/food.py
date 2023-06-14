@@ -25,5 +25,5 @@ class PostFood(BaseModel):
     totalProtein: int = Field(None, example=200)
     makanan: List[SingleFood]
 
-class GetAllFood(BaseModel):
-    food: List[PostFood]
+class GetFoodByDate(BaseModel):
+    food: PostFood

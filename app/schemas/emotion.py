@@ -5,7 +5,7 @@ from datetime import date, datetime
 from typing import List, Optional
 
 class Emotion(BaseModel):
-    id: int = Field(None, example=2)
+    id: str = Field(None, example="1")
     date: date
     lastUpdated: datetime
     emotionPositive: str = Field(None, example="Antusias,Gembira")
@@ -13,5 +13,5 @@ class Emotion(BaseModel):
     emotionSource: str = Field(None, example="Keluarga,Teman")
     note: str = Field(None, example="Saya merasa senang karena hari ini saya berhasil menyelesaikan tugas yang diberikan oleh dosen")
 
-class GetEmotion(BaseModel):
-    data: List[Emotion]
+class GetEmotionByDate(BaseModel):
+    data: Emotion
