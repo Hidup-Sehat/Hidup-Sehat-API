@@ -9,13 +9,15 @@ from app.schemas.user import (
     ResponseLogin,
     UpdateProfile,
     UpdatePassword,
+    LeaderboardEntry,
     GetWeeklyLeaderboard,
     GetMonthlyLeaderboard,
+    GetOverallLeaderboard,
     GetUserData,
     CheckUsername,
     RequestAddPoints
 )
-from firebase_admin import auth, storage
+from firebase_admin import auth, storage, firestore
 from app.deps.firebase import db
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -316,7 +318,7 @@ async def update_password(
         )
 
 @router.get("/weekly-leaderboard", response_model=GetWeeklyLeaderboard , status_code=status.HTTP_200_OK)
-async def get_leaderboard() -> GetWeeklyLeaderboard:
+async def get_weekly_leaderboard() -> GetWeeklyLeaderboard:
     try:
         today = datetime.now().date()
         current_week_start = today - timedelta(days=today.weekday())
@@ -371,6 +373,39 @@ async def get_monthly_leaderboard() -> GetMonthlyLeaderboard:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Monthly leaderboard not found or Nobody has gained point yet this month",
             )
+
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e)
+        )
+
+@router.get("/overall-leaderboard", response_model=GetOverallLeaderboard, status_code=status.HTTP_200_OK)
+async def get_overall_leaderboard()-> GetOverallLeaderboard:
+    try:
+        users_ref = db.collection("users")
+        query = users_ref.order_by("totalPoints", direction=firestore.Query.DESCENDING).limit(10)
+        result = query.get()
+
+        leaderboard_entries = []
+        for doc in result:
+            user = doc.to_dict()
+            leaderboard_entry = LeaderboardEntry(
+                user_uid=user["id"],
+                username=user["username"],
+                name=user["name"],
+                imgUrl=user["imgUrl"],
+                point=user["totalPoints"]
+            )
+            leaderboard_entries.append(leaderboard_entry)
+
+        # Create the overall leaderboard response
+        overall_leaderboard = GetOverallLeaderboard(
+            date=date.today(),
+            data=leaderboard_entries
+        )
+
+        return overall_leaderboard
 
     except ValueError as e:
         raise HTTPException(
