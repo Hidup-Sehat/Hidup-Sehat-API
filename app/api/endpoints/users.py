@@ -186,6 +186,9 @@ async def create_user_detail(
             'calorieNeeds': int(bmr * 1.2),
             'waterNeeds': int(request.weight * 0.033),
             'sleepNeeds': 8,
+            'actualCalorie': 0,
+            'actualWater': 0,
+            'actualSleep': 0,
             'points': 0,
         }
         try:
