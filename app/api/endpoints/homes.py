@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, HTTPException
 from fastapi.responses import JSONResponse
 from app.schemas.home import (
     GetUserDetail,
-    UpdateUserStatisticTarget,
+    UpdateUserStatistic,
     CreateUserEmotion
 )
 from datetime import datetime
@@ -37,9 +37,9 @@ async def get_user_detail(
         )
 
 @router.put("/user/{user_uid}/statistics", status_code=status.HTTP_200_OK)
-async def update_user_statistic_target(
+async def update_user_statistic(
     user_uid: str,
-    request: UpdateUserStatisticTarget
+    request: UpdateUserStatistic
 ):
     try:
         doc_ref = db.collection('users').document(user_uid)
@@ -59,7 +59,7 @@ async def update_user_statistic_target(
                 'waterNeeds': request.waterNeeds
             })
             return {
-                'message': 'Update user statistic target success',
+                'message': 'Update user statistic success',
                 'data': request.dict()
             }
         except ValueError as e:
