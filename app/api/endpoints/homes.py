@@ -53,10 +53,8 @@ async def update_user_statistic(
         
         try:
             doc_ref.update({
-                'calorieNeeds': request.calorieNeeds,
-                'calorieBurnedNeeds': request.calorieBurnedNeeds,
-                'sleepNeeds': request.sleepNeeds,
-                'waterNeeds': request.waterNeeds
+                'actualSleep': request.actualSleep,
+                'actualWater': request.actualWater,
             })
             return {
                 'message': 'Update user statistic success',
