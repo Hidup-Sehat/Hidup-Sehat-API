@@ -31,12 +31,17 @@ async def create_food(
         dateExist = db.collection('users').document(user_uid).collection('food').where('date', '==', datetime.combine(request.date, datetime.min.time())).get()
         if len(dateExist) > 0:
             doc_ref = db.collection('users').document(user_uid).collection('food').document(dateExist[0].id)
+            doc = doc_ref.get().to_dict()
+
+            data["makanan"] = doc["makanan"] + data["makanan"]
         else:
             doc_ref = db.collection('users').document(user_uid).collection('food').document()
 
         data["id"] = doc_ref.id
         data["date"] = datetime.combine(request.date, datetime.min.time())
         data["lastUpdated"] = datetime.now()
+
+
         doc_ref.set(data)
         return DefaultResponse(
             message="Food created successfully",
