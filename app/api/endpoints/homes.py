@@ -73,7 +73,7 @@ async def update_user_statistic_target(
             detail=str(e),
         )
 
-@router.post("/user/{user_uid}/revert-statistics", status_code=status.HTTP_200_OK)
+@router.put("/user/{user_uid}/revert-statistics", status_code=status.HTTP_200_OK)
 async def revert_user_statistic_target(
     user_uid: str
 ):
@@ -92,7 +92,7 @@ async def revert_user_statistic_target(
             age = doc_snapshot.get('age')
             height = doc_snapshot.get('height')
             weight = doc_snapshot.get('weight')
-            
+
             if gender.lower() == "male":
                 bmr = 66 + (13.75 * weight) + (5 * height) - (6.75 * age)
             elif gender.lower() == "female":
