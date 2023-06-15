@@ -73,33 +73,55 @@ async def update_user_statistic_target(
             detail=str(e),
         )
 
-        # user = db.collection('users').document(user_uid).get()
+@router.post("/user/{user_uid}/revert-statistics", status_code=status.HTTP_200_OK)
+async def revert_user_statistic_target(
+    user_uid: str
+):
+    try:
+        doc_ref = db.collection('users').document(user_uid)
+        doc_snapshot = doc_ref.get()
 
-        # if not user.exists:
-        #     raise HTTPException(
-        #         status_code=status.HTTP_404_NOT_FOUND,
-        #         detail="User not found",
-        #     )
+        if not doc_snapshot.exists:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="User not found",
+            )
 
-        # userDetail = user.to_dict()
+        try:
+            gender = doc_snapshot.get('gender')
+            age = doc_snapshot.get('age')
+            height = doc_snapshot.get('height')
+            weight = doc_snapshot.get('weight')
+            
+            if gender.lower() == "male":
+                bmr = 66 + (13.75 * weight) + (5 * height) - (6.75 * age)
+            elif gender.lower() == "female":
+                bmr = 655 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
 
-        # userDetail['calorieNeeds'] = request.CalorieNeeds
-        # userDetail['calorieBurnedNeeds'] = request.CalorieBurnedNeeds
-        # userDetail['sleepNeeds'] = request.SleepNeeds
-        # userDetail['waterNeeds'] = request.WaterNeeds
+            calorieNeeds = int(bmr * 1.2)
+            waterNeeds = weight * 0.033
 
-        # db.collection('users').document(user_uid).update(userDetail)
+            doc_ref.update({
+                'calorieNeeds': calorieNeeds,
+                'waterNeeds': waterNeeds
+            })
 
-        # return JSONResponse(
-        #     status_code=status.HTTP_200_OK,
-        #     content={
-        #         "message": "Update user statistic target success",
-        #         "data": userDetail            
-        #     }
-        # )
+            return {
+                'message': 'Revert user statistic target success',
+                'data': {
+                    'calorieNeeds': calorieNeeds,
+                    'waterNeeds': waterNeeds
+                }
+            }
 
-    # except ValueError as e:
-    #     raise HTTPException(
-    #         status_code=status.HTTP_400_BAD_REQUEST,
-    #         detail=str(e),
-    #     )
+        except ValueError as e:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=str(e),
+        )
+
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
