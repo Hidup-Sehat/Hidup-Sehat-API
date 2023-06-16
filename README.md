@@ -75,6 +75,12 @@ Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) 
 
 ## Install & Run Locally
 
+### Prerequisites
+
+- Python 3.6+
+- Pip
+- Git
+
 📦 Clone the project
 
 ```bash
