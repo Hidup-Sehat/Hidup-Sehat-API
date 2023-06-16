@@ -4,12 +4,12 @@
   <p align="center">HidupSehat is Innovative All-in-One Healthy Lifestyle Mobile Application</p>
 </p>
 
-# HidupSehat API
+# ❓ HidupSehat API
 
 The HidupSehat is a FastAPI-based API designed for mobile apps that focus on promoting a healthy lifestyle. Offers seamless integration with Firebase Firestore and Powered by machine learning. Can be accessed at
 [Here](https://hidup-sehat-api-oppougulda-as.a.run.app).
 
-## Usage/Examples
+## 📚 Usage/Examples
 
 To use the HidupSehat API deployed on Cloud Run, follow these steps:
 
@@ -39,7 +39,7 @@ The API will respond with the Weekly Leaderboard in JSON format. Here's an examp
 
 Explore the different API endpoints available for your use case. Refer to the [API documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) for more details on the available routes and request/response formats.
 
-## Features (API)
+## ⚡ Features (API)
 
 ⚡ Sign Up and Login\
 ⚡ Machine Learning Powered Article Feeds\
@@ -51,7 +51,7 @@ Explore the different API endpoints available for your use case. Refer to the [A
 ⚡ Leaderboard\
 ⚡ Calorie, Water, and Sleep Tracker
 
-## How we Deploy it in < 5 Minute
+## 🚀 How we Deploy it in < 5 Minute
 
 ![hero](https://firebasestorage.googleapis.com/v0/b/hidup-sehat-server.appspot.com/o/cloudrun_deploy.png?alt=media&token=eb8efece-d119-48db-b948-a2a6517bf25a)
 These are the step to deploy on Cloud Run:
@@ -70,11 +70,11 @@ These are the step to deploy on Cloud Run:
 12. Click create and wait
 13. The project should be deployed
 
-## Documentation
+## 📖 Documentation
 
 Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) to view the documentation, automatically created by FastAPI.
 
-## Install & Run Locally
+## 🛠️ Install & Run Locally
 
 ### Prerequisites
 
@@ -119,7 +119,7 @@ uvicorn app.main:app --reload
 API should be started locally, access the backend via http://localhost:8000 and the docs via http://localhost:8000/docs \
 Note: Make sure you have the Environment Variables from us before trying it out.
 
-## ❤️Acknowledgements
+## ❤️ Acknowledgements
 
 We would like to acknowledge the following groups, individuals and projects for their contributions to the development of the HidupSehat API:
 
@@ -131,17 +131,17 @@ We would like to acknowledge the following groups, individuals and projects for 
 - [Docker](https://www.docker.com/) Docker made it easy to containerize the HidupSehat API for deployment on Cloud Run.
 - [Readme.so](https://readme.so) & [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for making it easy to create a beautiful README.md
 
-## 💻Hire the Authors!
+## 💻 Hire the Authors!
 
 **Edy Setiawan - Backend Engineer**\
 Lead the Dockerization and Deployment on Cloud Run\
-💬[LinkedIn](https://www.linkedin.com/in/e-edsen/) [Github](https://github.com/e-edsen/) [Email](mailto:edy.setiawan213@gmail.com)
+💬 [LinkedIn](https://www.linkedin.com/in/e-edsen/) [Github](https://github.com/e-edsen/) [Email](mailto:edy.setiawan213@gmail.com)
 
 **I Wayan Natura Adnyana - Frontend Engineer**\
 Lead the making of the API and Testing\
-💬[LinkedIn](https://www.linkedin.com/in/natura-adnyana/) [Github](https://github.com/NaturaAdnyana/)
+💬 [LinkedIn](https://www.linkedin.com/in/natura-adnyana/) [Github](https://github.com/NaturaAdnyana/)
 [Email](mailto:natura538@gmail.com)
 
-To ask questions, report bugs, asking for environment variables you can contact us too.
+You can also contact us to ask questions, report bugs, and asking for environment variables.
 
 ## 📝 License
