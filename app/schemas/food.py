@@ -23,6 +23,7 @@ class PostFood(BaseModel):
     totalLemak: int = Field(None, example=200)
     totalSerat: int = Field(None, example=200)
     totalProtein: int = Field(None, example=200)
+    actualCalorie: int = Field(None, example=400)
     makanan: List[SingleFood]
 
 class GetFoodByDate(BaseModel):

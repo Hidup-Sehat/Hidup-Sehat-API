@@ -8,6 +8,7 @@ class Emotion(BaseModel):
     id: str = Field(None, example="1")
     date: date
     lastUpdated: datetime
+    emoji: int = Field(None, example=1, ge=1, le=5)
     emotionPositive: str = Field(None, example="Antusias,Gembira")
     emotionNegative: str = Field(None, example="Kecewa,Lesu")
     emotionSource: str = Field(None, example="Keluarga,Teman")
