@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="180" src="https://raw.githubusercontent.com/Hidup-Sehat/.github/main/profile/Squared%20Icon%20Logo-100.jpg">
+  <img src="https://raw.githubusercontent.com/Hidup-Sehat/.github/main/profile/Horizontal%20Logo-whitebg.png" alt="Hidup Sehat Logo">
   <h1 align="center">HidupSehat</h1>
   <p align="center">HidupSehat is Innovative All-in-One Healthy Lifestyle Mobile Application</p>
 </p>
@@ -131,18 +131,17 @@ We would like to acknowledge the following groups, individuals and projects for 
 - [Docker](https://www.docker.com/) Docker made it easy to containerize the HidupSehat API for deployment on Cloud Run.
 - [Readme.so](https://readme.so) & [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for making it easy to create a beautiful README.md
 
-## Hire the Authors
+## 💻Hire the Authors!
 
-Edy Setiawan - Backend Engineer
+**Edy Setiawan - Backend Engineer**\
+Lead the Dockerization and Deployment on Cloud Run\
+💬[LinkedIn](https://www.linkedin.com/in/e-edsen/) [Github](https://github.com/e-edsen/) [Email](mailto:edy.setiawan213@gmail.com)
 
-- [LinkedIn](https://www.linkedin.com/in/e-edsen/)
-- [Github](https://github.com/e-edsen/)
-- [Email](mailto:edy.setiawan213@gmail.com)
+**I Wayan Natura Adnyana - Frontend Engineer**\
+Lead the making of the API and Testing\
+💬[LinkedIn](https://www.linkedin.com/in/natura-adnyana/) [Github](https://github.com/NaturaAdnyana/)
+[Email](mailto:natura538@gmail.com)
 
-I Wayan Natura Adnyana - Frontend Engineer
-
-- [LinkedIn](https://www.linkedin.com/in/natura-adnyana/)
-- [Github](https://github.com/NaturaAdnyana/)
-- [Email](mailto:natura538@gmail.com)
+To ask questions, report bugs, asking for environment variables you can contact us too.
 
 ## 📝 License

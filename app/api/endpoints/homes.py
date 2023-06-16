@@ -25,8 +25,6 @@ async def get_user_detail(
 
         userDetail = user.to_dict()
 
-        userDetail['registeredAt'] = datetime.fromtimestamp(userDetail['registeredAt'].timestamp())
-
         return GetUserDetail(**userDetail)
 
 
