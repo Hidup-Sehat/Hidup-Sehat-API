@@ -131,7 +131,7 @@ We would like to acknowledge the following groups, individuals and projects for 
 - [Docker](https://www.docker.com/) Docker made it easy to containerize the HidupSehat API for deployment on Cloud Run.
 - [Readme.so](https://readme.so) & [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for making it easy to create a beautiful README.md
 
-## Hire the Authors!
+## 💻Hire the Authors!
 
 **Edy Setiawan - Backend Engineer**\
 Lead the Dockerization and Deployment on Cloud Run\
