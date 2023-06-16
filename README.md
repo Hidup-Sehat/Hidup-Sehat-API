@@ -1,7 +1,7 @@
 # HidupSehat API
 
-The HidupSehat is a FastAPI-based API designed for mobile apps that focus on promoting a healthy lifestyle. Powered by machine learning, it offers seamless integration with Firebase Firestore. Can be accessed at
-[Here](https://apihidupsehat.my.id/docs).
+The HidupSehat is a FastAPI-based API designed for mobile apps that focus on promoting a healthy lifestyle. Offers seamless integration with Firebase Firestore and Powered by machine learning. Can be accessed at
+[Here](https://hidup-sehat-api-oppougulda-as.a.run.app).
 
 ## Usage/Examples
 
@@ -9,7 +9,7 @@ To use the HidupSehat API deployed on Cloud Run, follow these steps:
 
 ```
 curl -X 'GET' \
-  'https://apihidupsehat.my.id/v1/weekly-leaderboard' \
+  'https://hidup-sehat-api-oppougulda-as.a.run.app/v1/weekly-leaderboard' \
   -H 'accept: application/json'
 ```
 
@@ -31,9 +31,9 @@ The API will respond with the Weekly Leaderboard in JSON format. Here's an examp
 }
 ```
 
-Explore the different API endpoints available for your use case. Refer to the [API documentation](https://apihidupsehat.my.id/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) for more details on the available routes and request/response formats.
+Explore the different API endpoints available for your use case. Refer to the [API documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) for more details on the available routes and request/response formats.
 
-## Deployment
+## How we Deploy it
 
 These are the step to deploy on Cloud Run:
 
@@ -53,7 +53,7 @@ These are the step to deploy on Cloud Run:
 
 ## Documentation
 
-Here's the link to our [API Documentation](https://apihidupsehat.my.id/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) automatically created by FastAPI.
+Here's the link to our [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) automatically created by FastAPI.
 
 ## Run Locally
 
@@ -87,7 +87,7 @@ Start the server
   uvicorn app.main:app --reload
 ```
 
-API should be started locally, access the backend via [http://localhost:8000](http://localhost:8000) and the docs via [http://localhost:8000](http://localhost:8000)
+API should be started locally, access the backend via [http://localhost:8000](http://localhost:8000) and the docs via [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ## Acknowledgements
 
