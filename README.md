@@ -135,11 +135,11 @@ We would like to acknowledge the following groups, individuals and projects for 
 
 **Edy Setiawan - Backend Engineer**\
 Lead the Dockerization and Deployment on Cloud Run\
-☎️[LinkedIn](https://www.linkedin.com/in/e-edsen/) [Github](https://github.com/e-edsen/) [Email](mailto:edy.setiawan213@gmail.com)
+💬[LinkedIn](https://www.linkedin.com/in/e-edsen/) [Github](https://github.com/e-edsen/) [Email](mailto:edy.setiawan213@gmail.com)
 
 **I Wayan Natura Adnyana - Frontend Engineer**\
 Lead the making of the API and Testing\
-☎️[LinkedIn](https://www.linkedin.com/in/natura-adnyana/) [Github](https://github.com/NaturaAdnyana/)
+💬[LinkedIn](https://www.linkedin.com/in/natura-adnyana/) [Github](https://github.com/NaturaAdnyana/)
 [Email](mailto:natura538@gmail.com)
 
 To ask questions, report bugs, asking for environment variables you can contact us too.
