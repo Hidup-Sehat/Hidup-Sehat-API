@@ -142,6 +142,6 @@ Lead the making of the API and Testing\
 💬 [LinkedIn](https://www.linkedin.com/in/natura-adnyana/) [Github](https://github.com/NaturaAdnyana/)
 [Email](mailto:natura538@gmail.com)
 
-To ask questions, report bugs, asking for environment variables you can contact us too.
+You can also contact us to ask questions, report bugs, and asking for environment variables.
 
 ## 📝 License
