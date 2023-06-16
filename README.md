@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="180" src="https://raw.githubusercontent.com/Hidup-Sehat/.github/main/profile/Icon%20Logo-ldpi.png">
+  <img width="180" src="https://raw.githubusercontent.com/Hidup-Sehat/.github/main/profile/Squared%20Icon%20Logo-100.jpg">
   <h1 align="center">HidupSehat</h1>
   <p align="center">HidupSehat is Innovative All-in-One Healthy Lifestyle Mobile Application</p>
 </p>
