@@ -71,7 +71,7 @@ These are the step to deploy on Cloud Run:
 
 ## Documentation
 
-Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) to view the documentation, documentation automatically created by FastAPI.
+Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) to view the documentation, automatically created by FastAPI.
 
 ## Install & Run Locally
 
@@ -120,7 +120,7 @@ Note: Make sure you have the Environment Variables from us before trying it out.
 
 ## ❤️Acknowledgements
 
-We would like to acknowledge the following individuals and projects for their contributions to the development of the HidupSehat API:
+We would like to acknowledge the following groups, individuals and projects for their contributions to the development of the HidupSehat API:
 
 - [Bangkit Academy](https://grow.google/intl/id_id/bangkit/) Who provide us with outstanding quality of Education
 - [HidupSehat Team](https://github.com/Hidup-Sehat#our-teams) for putting on hardwork and efforts such to make this Capstone Project successful
@@ -132,4 +132,15 @@ We would like to acknowledge the following individuals and projects for their co
 ## Hire the Authors
 
 Edy Setiawan - Backend Engineer
-I Wayan Natura A
+
+- [LinkedIn](https://www.linkedin.com/in/e-edsen/)
+- [Github](https://github.com/e-edsen/)
+- [Email](mailto:edy.setiawan213@gmail.com)
+
+I Wayan Natura Adnyana - Frontend Engineer
+
+- [LinkedIn]
+- [Github]
+- [Email]
+
+## 📝 License
