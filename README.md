@@ -47,6 +47,7 @@ Explore the different API endpoints available for your use case. Refer to the [A
 ⚡ Food Detection and Nutrition Information\
 ⚡ Food History with Calorie Tracker\
 ⚡ Diary and Journal\
+⚡ Yoga Pose Detection\
 ⚡ Leaderboard\
 ⚡ Calorie, Water, and Sleep Tracker
 
