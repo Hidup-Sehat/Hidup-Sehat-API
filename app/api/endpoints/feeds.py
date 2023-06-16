@@ -19,8 +19,17 @@ async def get_feeds(
   request: GetFeeds,
   page: int = 1, limit: int = 10
 ):
+  mood = "hari ini aku memiliki emosi yang positif dan negatif, netral tetapi aku merasa senang"
+
+  docs = db.collection('users').document(request.user_uid).collection('emotions').order_by('date', direction='DESCENDING').limit(1).get()
+
+  if len(list(docs)) > 0:
+    note = docs[0].to_dict()["note"]
+    mood = note
+
   try:
-    data_user = request.user_current_mood
+    data_user = mood
+    # print(data_user)
     model = Recommendation(r'app/api/data/database_blog.json',str(data_user))
     recommendations = list(model.recomendations().itertuples(index=False, name=None))
 

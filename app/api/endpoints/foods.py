@@ -34,6 +34,11 @@ async def create_food(
             doc_ref = db.collection('users').document(user_uid).collection('food').document(dateExist[0].id)
             doc = doc_ref.get().to_dict()
 
+            data["totalKarbohidrat"] = doc["totalKarbohidrat"] + data["totalKarbohidrat"]
+            data["totalLemak"] = doc["totalLemak"] + data["totalLemak"]
+            data["totalSerat"] = doc["totalSerat"] + data["totalSerat"]
+            data["totalProtein"] = doc["totalProtein"] + data["totalProtein"]
+            data["actualCalorie"] = doc["actualCalorie"] + data["actualCalorie"]
             data["makanan"] = doc["makanan"] + data["makanan"]
         else:
             doc_ref = db.collection('users').document(user_uid).collection('food').document()
