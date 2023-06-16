@@ -1,3 +1,9 @@
+<p align="center">
+  <img width="180" src="https://cdn.jsdelivr.net/gh/Hidup-Sehat/.github/profile/Full%20Logo-ldpi.png">
+  <h1 align="center">HidupSehat API</h1>
+  <p align="center">HidupSehat is Innovative All-in-One Healthy Lifestyle Mobile Application</p>
+</p>
+
 # HidupSehat API
 
 The HidupSehat is a FastAPI-based API designed for mobile apps that focus on promoting a healthy lifestyle. Offers seamless integration with Firebase Firestore and Powered by machine learning. Can be accessed at
