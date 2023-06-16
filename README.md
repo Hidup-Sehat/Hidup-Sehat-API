@@ -41,13 +41,14 @@ Explore the different API endpoints available for your use case. Refer to the [A
 
 ## Features (API)
 
-⚡ Sign Up and Login
-⚡ Machine Learning Powered Article Feeds
-⚡ Health Monitoring
-⚡ Food Detection and Nutrition Information
-⚡ Food History with Calorie Tracker
-⚡ Diary and Journal
-⚡ Leaderboard
+⚡ Sign Up and Login\
+⚡ Machine Learning Powered Article Feeds\
+⚡ Health Monitoring\
+⚡ Food Detection and Nutrition Information\
+⚡ Food History with Calorie Tracker\
+⚡ Diary and Journal\
+⚡ Yoga Pose Detection\
+⚡ Leaderboard\
 ⚡ Calorie, Water, and Sleep Tracker
 
 ## How we Deploy it in < 5 Minute
@@ -71,11 +72,19 @@ These are the step to deploy on Cloud Run:
 
 ## Documentation
 
-Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) to view the documentation, documentation automatically created by FastAPI.
+Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) to view the documentation, automatically created by FastAPI.
 
 ## Install & Run Locally
 
-📦 Clone the project
+### Prerequisites
+
+- Python 3.6+
+- Pip
+- Git
+
+### Installation
+
+Clone the project
 
 ```bash
 git clone https://github.com/Hidup-Sehat/Hidup-Sehat-API.git
@@ -96,8 +105,10 @@ pip install -r requirements.txt
 Get the Environment Variables
 
 ```bash
-Contact Us
+Contact Us for the Environment Variables
 ```
+
+### Run Locally
 
 Start the server
 
@@ -105,12 +116,12 @@ Start the server
 uvicorn app.main:app --reload
 ```
 
-API should be started locally, access the backend via http://localhost:8000 and the docs via http://localhost:8000/docs.
+API should be started locally, access the backend via http://localhost:8000 and the docs via http://localhost:8000/docs \
 Note: Make sure you have the Environment Variables from us before trying it out.
 
 ## ❤️Acknowledgements
 
-We would like to acknowledge the following individuals and projects for their contributions to the development of the HidupSehat API:
+We would like to acknowledge the following groups, individuals and projects for their contributions to the development of the HidupSehat API:
 
 - [Bangkit Academy](https://grow.google/intl/id_id/bangkit/) Who provide us with outstanding quality of Education
 - [HidupSehat Team](https://github.com/Hidup-Sehat#our-teams) for putting on hardwork and efforts such to make this Capstone Project successful
@@ -122,4 +133,15 @@ We would like to acknowledge the following individuals and projects for their co
 ## Hire the Authors
 
 Edy Setiawan - Backend Engineer
-I Wayan Natura A
+
+- [LinkedIn](https://www.linkedin.com/in/e-edsen/)
+- [Github](https://github.com/e-edsen/)
+- [Email](mailto:edy.setiawan213@gmail.com)
+
+I Wayan Natura Adnyana - Frontend Engineer
+
+- [LinkedIn]
+- [Github]
+- [Email]
+
+## 📝 License
