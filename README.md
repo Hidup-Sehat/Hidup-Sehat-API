@@ -1,3 +1,9 @@
+<p align="center">
+  <img width="180" src="https://raw.githubusercontent.com/Hidup-Sehat/.github/main/profile/Squared%20Icon%20Logo-100.jpg">
+  <h1 align="center">HidupSehat</h1>
+  <p align="center">HidupSehat is Innovative All-in-One Healthy Lifestyle Mobile Application</p>
+</p>
+
 # HidupSehat API
 
 The HidupSehat is a FastAPI-based API designed for mobile apps that focus on promoting a healthy lifestyle. Offers seamless integration with Firebase Firestore and Powered by machine learning. Can be accessed at
@@ -7,7 +13,7 @@ The HidupSehat is a FastAPI-based API designed for mobile apps that focus on pro
 
 To use the HidupSehat API deployed on Cloud Run, follow these steps:
 
-```
+```bash
 curl -X 'GET' \
   'https://hidup-sehat-api-oppougulda-as.a.run.app/v1/weekly-leaderboard' \
   -H 'accept: application/json'
@@ -15,7 +21,7 @@ curl -X 'GET' \
 
 The API will respond with the Weekly Leaderboard in JSON format. Here's an example response:
 
-```
+```json
 {
   "weekEndDate": "18-06-2023",
   "weekStartDate": "12-06-2023",
@@ -33,68 +39,87 @@ The API will respond with the Weekly Leaderboard in JSON format. Here's an examp
 
 Explore the different API endpoints available for your use case. Refer to the [API documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) for more details on the available routes and request/response formats.
 
-## How we Deploy it
+## Features (API)
 
+⚡ Sign Up and Login
+⚡ Machine Learning Powered Article Feeds
+⚡ Health Monitoring
+⚡ Food Detection and Nutrition Information
+⚡ Food History with Calorie Tracker
+⚡ Diary and Journal
+⚡ Leaderboard
+⚡ Calorie, Water, and Sleep Tracker
+
+## How we Deploy it in < 5 Minute
+
+![hero](https://firebasestorage.googleapis.com/v0/b/hidup-sehat-server.appspot.com/o/cloudrun_deploy.png?alt=media&token=eb8efece-d119-48db-b948-a2a6517bf25a)
 These are the step to deploy on Cloud Run:
 
-1.  Make sure you join the **capstone-hidup-sehat** Google Cloud project
+1.  Make sure you join the **capstone-hidup-sehat** Google Cloud project (or using your own project)
 2.  Go to the [Cloud Run Section](https://console.cloud.google.com/run) in Google Cloud
-3.  Click create service
-4.  Click on Continuously deploy new revisions from a source repository and click on Set Up with Cloud Build
+3.  Click **Create Service**
+4.  Click on **Continuously deploy new revisions from a source repository** and click on **Set Up with Cloud Build**
 5.  Use github as source repository and choose **Hidup-Sehat/Hidup-Sehat-API** as the repository then click next
-6.  Choose the branch and use Dockerfile as build type then just leave Source Location by default
+6.  **Choose the branch** and use **Dockerfile** as build type then just leave Source Location by default
 7.  Change the Service name and the region as it should
 8.  To avoid high billing, choose **CPU is only allocated during request processing** and set the Minimum number of instances to **0** and the Maximum number of instances to **5**. (You can set the maximum to around 5-10)
 9.  Choose **All** for Ingress Control
 10. Set **Allow unauthenticated invocations** to make our API public
-11. Configure env as it should
+11. Configure **Environment Variables** as it should
 12. Click create and wait
 13. The project should be deployed
 
 ## Documentation
 
-Here's the link to our [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) automatically created by FastAPI.
+Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) to view the documentation, documentation automatically created by FastAPI.
 
-## Run Locally
+## Install & Run Locally
 
-Clone the project
+📦 Clone the project
 
 ```bash
-  git clone https://link-to-project
+git clone https://github.com/Hidup-Sehat/Hidup-Sehat-API.git
 ```
 
 Make sure you have Python and Pip installed locally
 
 ```bash
-  python –version && pip --version
+python –version && pip --version
 ```
 
 Install dependencies
 
 ```bash
-  pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Get the Environment Variables
 
 ```bash
-  Contact Us
+Contact Us
 ```
 
 Start the server
 
 ```bash
-  uvicorn app.main:app --reload
+uvicorn app.main:app --reload
 ```
 
-API should be started locally, access the backend via [http://localhost:8000](http://localhost:8000) and the docs via [http://localhost:8000/docs](http://localhost:8000/docs)
+API should be started locally, access the backend via http://localhost:8000 and the docs via http://localhost:8000/docs.
+Note: Make sure you have the Environment Variables from us before trying it out.
 
-## Acknowledgements
+## ❤️Acknowledgements
 
 We would like to acknowledge the following individuals and projects for their contributions to the development of the HidupSehat API:
 
+- [Bangkit Academy](https://grow.google/intl/id_id/bangkit/) Who provide us with outstanding quality of Education
+- [HidupSehat Team](https://github.com/Hidup-Sehat#our-teams) for putting on hardwork and efforts such to make this Capstone Project successful
 - [FastAPI](https://fastapi.tiangolo.com/) The FastAPI framework provided a solid foundation for building the API.
 - [Firebase Firestore](https://firebase.google.com/) Firebase Firestore enabled efficient data management and seamless integration with the HidupSehat API.
 - [Docker](https://www.docker.com/) Docker made it easy to containerize the HidupSehat API for deployment on Cloud Run.
 - [Readme.so](https://readme.so) & [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for making it easy to create a beautiful README.md
-- HidupSehat Team for putting on hardwork and efforts such to make this Capstone Project successful
+
+## Hire the Authors
+
+Edy Setiawan - Backend Engineer
+I Wayan Natura A

@@ -6,6 +6,7 @@ from app.schemas.activity import (
     GetAllActivity,
     GetActivityMovement,
     GetAllActivityMovement,
+    CompletingActivity
 )
 from app.deps.firebase import db
 
@@ -142,6 +143,31 @@ async def get_activity_movement(
             )
         return GetAllActivityMovement(movement=movement)
         
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
+
+@router.put("/activity/{user_uid}/done}", status_code=status.HTTP_200_OK)
+async def update_activity_done(
+    user_uid: str,
+    request: CompletingActivity
+):
+    try:
+        doc_ref = db.collection('users').document(user_uid)
+        doc_data = doc_ref.get().to_dict()
+        data = {
+            "user_uid": doc_data["id"],
+            "username": doc_data["username"],
+            "calorieBurned": doc_data["calorieBurned"] + request.calorieBurned,
+        }
+
+        doc_ref.update(data)
+        return DefaultResponse(
+            message="Activity completed successfully",
+            data=data
+        )
     except ValueError as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

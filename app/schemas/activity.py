@@ -52,3 +52,6 @@ class GetAllActivity(BaseModel):
 
 class GetAllActivityMovement(BaseModel):
     movement: List[GetActivityMovement]
+
+class CompletingActivity(BaseModel):
+    calorieBurned: int
