@@ -49,7 +49,7 @@ async def create_food(
 
         user_doc = db.collection('users').document(user_uid)
         updateCalorie = {
-            "actualCalorie": request.actualCalorie,
+            "actualCalorie": data["actualCalorie"],
         }
         print(updateCalorie)
         user_doc.update(updateCalorie)
