@@ -84,7 +84,7 @@ Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) 
 
 ### Installation
 
-Clone the project
+Clone the project 📦
 
 ```bash
 git clone https://github.com/Hidup-Sehat/Hidup-Sehat-API.git
@@ -123,8 +123,9 @@ Note: Make sure you have the Environment Variables from us before trying it out.
 
 We would like to acknowledge the following groups, individuals and projects for their contributions to the development of the HidupSehat API:
 
-- [Bangkit Academy](https://grow.google/intl/id_id/bangkit/) Who provide us with outstanding quality of Education
+- [Bangkit Academy 2023](https://grow.google/intl/id_id/bangkit/) Who provide us with outstanding quality of Education
 - [HidupSehat Team](https://github.com/Hidup-Sehat#our-teams) for putting on hardwork and efforts such to make this Capstone Project successful
+- Mentor [Eric Julianto](twitter.com/algonacci) & [Adrianus Agung Satriyo Wicaksono](https://www.linkedin.com/in/chuck1z/) for their guidance and support on Cloud Run Deployment and API
 - [FastAPI](https://fastapi.tiangolo.com/) The FastAPI framework provided a solid foundation for building the API.
 - [Firebase Firestore](https://firebase.google.com/) Firebase Firestore enabled efficient data management and seamless integration with the HidupSehat API.
 - [Docker](https://www.docker.com/) Docker made it easy to containerize the HidupSehat API for deployment on Cloud Run.
