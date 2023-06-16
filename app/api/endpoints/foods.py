@@ -23,6 +23,7 @@ async def create_food(
             "totalLemak": request.totalLemak,
             "totalSerat": request.totalSerat,
             "totalProtein": request.totalProtein,
+            "actualCalorie": request.actualCalorie,
             "makanan": [
                 get_food.dict() for get_food in request.makanan
             ]
@@ -41,6 +42,12 @@ async def create_food(
         data["date"] = datetime.combine(request.date, datetime.min.time())
         data["lastUpdated"] = datetime.now()
 
+        user_doc = db.collection('users').document(user_uid)
+        updateCalorie = {
+            "actualCalorie": request.actualCalorie,
+        }
+        print(updateCalorie)
+        user_doc.update(updateCalorie)
 
         doc_ref.set(data)
         return DefaultResponse(

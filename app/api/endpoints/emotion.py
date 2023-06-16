@@ -20,6 +20,7 @@ async def create_emotion(
             # "id": request.id,
             "date": request.date,
             # "lastUpdated": datetime.now(),
+            "emoji": request.emoji, # 1-5
             "emotionPositive": request.emotionPositive,
             "emotionNegative": request.emotionNegative,
             "emotionSource": request.emotionSource,

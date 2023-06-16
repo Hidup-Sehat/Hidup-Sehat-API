@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 import json
 
-# load_dotenv()
+load_dotenv()
 
 # cred = credentials.Certificate({
 #     "type": os.getenv("FIREBASE_TYPE"),
@@ -19,7 +19,11 @@ import json
 #     "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_X509_CERT_URL"),
 #     "universal_domain": os.getenv("FIREBASE_UNIVERSAL_DOMAIN")
 # })
+# env = os.getenv("FIREBASE")
+# envdump = json.dumps(env)
+# print(env, envdump)
 
+# print(os.getenv("FIREBASE"))
 data = json.loads(os.getenv("FIREBASE"))
 cred = credentials.Certificate(data)
 #meme
