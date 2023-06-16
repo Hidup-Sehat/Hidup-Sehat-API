@@ -41,13 +41,13 @@ Explore the different API endpoints available for your use case. Refer to the [A
 
 ## Features (API)
 
-⚡ Sign Up and Login
-⚡ Machine Learning Powered Article Feeds
-⚡ Health Monitoring
-⚡ Food Detection and Nutrition Information
-⚡ Food History with Calorie Tracker
-⚡ Diary and Journal
-⚡ Leaderboard
+⚡ Sign Up and Login\
+⚡ Machine Learning Powered Article Feeds\
+⚡ Health Monitoring\
+⚡ Food Detection and Nutrition Information\
+⚡ Food History with Calorie Tracker\
+⚡ Diary and Journal\
+⚡ Leaderboard\
 ⚡ Calorie, Water, and Sleep Tracker
 
 ## How we Deploy it in < 5 Minute
