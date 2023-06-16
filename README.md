@@ -116,7 +116,7 @@ Start the server
 uvicorn app.main:app --reload
 ```
 
-API should be started locally, access the backend via http://localhost:8000 and the docs via http://localhost:8000/docs.\
+API should be started locally, access the backend via http://localhost:8000 and the docs via http://localhost:8000/docs \
 Note: Make sure you have the Environment Variables from us before trying it out.
 
 ## ❤️Acknowledgements
