@@ -141,8 +141,8 @@ Edy Setiawan - Backend Engineer
 
 I Wayan Natura Adnyana - Frontend Engineer
 
-- [LinkedIn]
-- [Github]
-- [Email]
+- [LinkedIn](https://www.linkedin.com/in/natura-adnyana/)
+- [Github](https://github.com/NaturaAdnyana/)
+- [Email](mailto:natura538@gmail.com)
 
 ## 📝 License
