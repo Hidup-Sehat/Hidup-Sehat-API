@@ -145,3 +145,5 @@ Lead the making of the API and Testing\
 You can also contact us to ask questions, report bugs, and asking for environment variables.
 
 ## 📝 License
+
+This project is released under the GNU Affero General Public License v3.0. Please refer to [LICENSES](https://github.com/Hidup-Sehat/Hidup-Sehat-API/blob/main/LICENSE) for the careful check, if you plan to use our code.
