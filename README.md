@@ -39,14 +39,25 @@ The API will respond with the Weekly Leaderboard in JSON format. Here's an examp
 
 Explore the different API endpoints available for your use case. Refer to the [API documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) for more details on the available routes and request/response formats.
 
+## ⚡️ Features (API)
+
+- Sign Up and Login
+- Machine Learning Powered Article Feeds
+- Health Monitoring
+- Food Detection and Nutrition Information
+- Food History with Calorie Tracker
+- Diary and Journal
+- Leaderboard
+- Calorie, Water, and Sleep Tracker
+
 ## How we Deploy it in < 5 Minute
 
-These are the step to deploy on Cloud Run:
 ![hero](https://firebasestorage.googleapis.com/v0/b/hidup-sehat-server.appspot.com/o/cloudrun_deploy.png?alt=media&token=eb8efece-d119-48db-b948-a2a6517bf25a)
+These are the step to deploy on Cloud Run:
 
 1.  Make sure you join the **capstone-hidup-sehat** Google Cloud project (or using your own project)
 2.  Go to the [Cloud Run Section](https://console.cloud.google.com/run) in Google Cloud
-3.  Click **create service**
+3.  Click **Create Service**
 4.  Click on **Continuously deploy new revisions from a source repository** and click on **Set Up with Cloud Build**
 5.  Use github as source repository and choose **Hidup-Sehat/Hidup-Sehat-API** as the repository then click next
 6.  **Choose the branch** and use **Dockerfile** as build type then just leave Source Location by default
@@ -108,4 +119,4 @@ We would like to acknowledge the following individuals and projects for their co
 - [Docker](https://www.docker.com/) Docker made it easy to containerize the HidupSehat API for deployment on Cloud Run.
 - [Readme.so](https://readme.so) & [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for making it easy to create a beautiful README.md
 
-## Contact Us
+## Hire Us
