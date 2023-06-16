@@ -9,10 +9,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Copy the generate_auth_key.py script from app/deps directory
-# COPY app/deps/generate_auth_key.py .
+COPY app/deps/generate_auth_key.py .
 
 # Run the script to generate the authentication key
-# RUN python generate_auth_key.py
+RUN python generate_auth_key.py
 
 # Install NLTK and download the resources
 # RUN pip install nltk
