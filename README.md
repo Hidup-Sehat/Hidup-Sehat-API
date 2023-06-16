@@ -1,6 +1,6 @@
 <p align="center">
-  <img width="180" src="https://cdn.jsdelivr.net/gh/Hidup-Sehat/.github/profile/Full%20Logo-ldpi.png">
-  <h1 align="center">HidupSehat API</h1>
+  <img width="180" src="https://raw.githubusercontent.com/Hidup-Sehat/.github/main/profile/Icon%20Logo-ldpi.png">
+  <h1 align="center">HidupSehat</h1>
   <p align="center">HidupSehat is Innovative All-in-One Healthy Lifestyle Mobile Application</p>
 </p>
 
@@ -59,7 +59,7 @@ These are the step to deploy on Cloud Run:
 
 ## Documentation
 
-Here's the link to our [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) automatically created by FastAPI.
+Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) to view the documentation, documentation automatically created by FastAPI.
 
 ## Run Locally
 
