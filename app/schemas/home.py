@@ -27,6 +27,7 @@ class GetUserDetail(BaseModel):
     actualWater: int
     actualSleep: float
     calorieNeeds: int
+    calorieBurned: int
     waterNeeds: float
     sleepNeeds: float
     # actualCalorieBurned: int

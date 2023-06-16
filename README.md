@@ -39,16 +39,16 @@ The API will respond with the Weekly Leaderboard in JSON format. Here's an examp
 
 Explore the different API endpoints available for your use case. Refer to the [API documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) for more details on the available routes and request/response formats.
 
-## ⚡️ Features (API)
+## Features (API)
 
-- Sign Up and Login
-- Machine Learning Powered Article Feeds
-- Health Monitoring
-- Food Detection and Nutrition Information
-- Food History with Calorie Tracker
-- Diary and Journal
-- Leaderboard
-- Calorie, Water, and Sleep Tracker
+⚡ Sign Up and Login
+⚡ Machine Learning Powered Article Feeds
+⚡ Health Monitoring
+⚡ Food Detection and Nutrition Information
+⚡ Food History with Calorie Tracker
+⚡ Diary and Journal
+⚡ Leaderboard
+⚡ Calorie, Water, and Sleep Tracker
 
 ## How we Deploy it in < 5 Minute
 
@@ -73,12 +73,12 @@ These are the step to deploy on Cloud Run:
 
 Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) or [here](https://hidup-sehat-api-production.up.railway.app/docs) to view the documentation, documentation automatically created by FastAPI.
 
-## 📦 Install & Run Locally
+## Install & Run Locally
 
-Clone the project
+📦 Clone the project
 
 ```bash
-git clone https://link-to-project
+git clone https://github.com/Hidup-Sehat/Hidup-Sehat-API.git
 ```
 
 Make sure you have Python and Pip installed locally
@@ -119,4 +119,7 @@ We would like to acknowledge the following individuals and projects for their co
 - [Docker](https://www.docker.com/) Docker made it easy to containerize the HidupSehat API for deployment on Cloud Run.
 - [Readme.so](https://readme.so) & [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for making it easy to create a beautiful README.md
 
-## Hire Us
+## Hire the Authors
+
+Edy Setiawan - Backend Engineer
+I Wayan Natura A

@@ -192,6 +192,7 @@ async def create_user_detail(
             'actualCalorie': 0,
             'actualWater': 0,
             'actualSleep': 0,
+            'calorieBurned': 0,
             'points': 0,
         }
         try:
