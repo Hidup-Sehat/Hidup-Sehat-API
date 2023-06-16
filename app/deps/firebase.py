@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 import json
 
-load_dotenv()
+# load_dotenv()
 
 # cred = credentials.Certificate({
 #     "type": os.getenv("FIREBASE_TYPE"),
@@ -19,9 +19,9 @@ load_dotenv()
 #     "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_X509_CERT_URL"),
 #     "universal_domain": os.getenv("FIREBASE_UNIVERSAL_DOMAIN")
 # })
+
 data = json.loads(os.getenv("FIREBASE"))
 cred = credentials.Certificate(data)
-
+#meme
 firebase_admin.initialize_app(cred, {'storageBucket': 'hidup-sehat-server.appspot.com'})
-
 db = firestore.client()
