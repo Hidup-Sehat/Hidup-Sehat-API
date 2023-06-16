@@ -34,12 +34,9 @@ class GetUserDetail(BaseModel):
     # emotionHistory: List[GetUserEmotion]
     # foodHistory: List[GetUserFood]
 
-class UpdateUserStatisticTarget(BaseModel):
-  CalorieNeeds: int
-  CalorieBurnedNeeds: int
-  SleepNeeds: float
-  WaterNeeds: int
-
+class UpdateUserStatistic(BaseModel):
+    actualWater: int
+    actualSleep: float
 
 class CreateUserEmotion(BaseModel):
     date: date

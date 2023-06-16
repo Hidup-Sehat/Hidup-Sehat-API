@@ -75,6 +75,10 @@ class GetMonthlyLeaderboard(BaseModel):
     monthEndDate: str
     data: List[LeaderboardEntry]
 
+class GetOverallLeaderboard(BaseModel):
+    date: date
+    data: List[LeaderboardEntry]
+
 class CheckUsername(BaseModel):
     message: str
     data: str
