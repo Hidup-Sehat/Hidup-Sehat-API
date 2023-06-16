@@ -81,6 +81,8 @@ Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) 
 - Pip
 - Git
 
+### Installation
+
 📦 Clone the project
 
 ```bash
@@ -102,8 +104,10 @@ pip install -r requirements.txt
 Get the Environment Variables
 
 ```bash
-Contact Us
+Contact Us for the Environment Variables
 ```
+
+### Run Locally
 
 Start the server
 
