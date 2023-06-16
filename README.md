@@ -84,7 +84,7 @@ Visit [API Documentation](https://hidup-sehat-api-oppougulda-as.a.run.app/docs) 
 
 ### Installation
 
-📦 Clone the project
+Clone the project
 
 ```bash
 git clone https://github.com/Hidup-Sehat/Hidup-Sehat-API.git
