@@ -42,6 +42,7 @@ Explore the different API endpoints available for your use case. Refer to the [A
 ## How we Deploy it in < 5 Minute
 
 These are the step to deploy on Cloud Run:
+![hero](https://firebasestorage.googleapis.com/v0/b/hidup-sehat-server.appspot.com/o/cloudrun_deploy.png?alt=media&token=eb8efece-d119-48db-b948-a2a6517bf25a)
 
 1.  Make sure you join the **capstone-hidup-sehat** Google Cloud project (or using your own project)
 2.  Go to the [Cloud Run Section](https://console.cloud.google.com/run) in Google Cloud
