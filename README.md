@@ -131,18 +131,14 @@ We would like to acknowledge the following groups, individuals and projects for 
 - [Docker](https://www.docker.com/) Docker made it easy to containerize the HidupSehat API for deployment on Cloud Run.
 - [Readme.so](https://readme.so) & [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) for making it easy to create a beautiful README.md
 
-## Hire the Authors
+## ☎️ Hire the Authors
 
-Edy Setiawan - Backend Engineer
+Edy Setiawan - Backend Engineer\
+[LinkedIn](https://www.linkedin.com/in/e-edsen/)-[Github](https://github.com/e-edsen/)-[Email](mailto:edy.setiawan213@gmail.com)\
 
-- [LinkedIn](https://www.linkedin.com/in/e-edsen/)
-- [Github](https://github.com/e-edsen/)
-- [Email](mailto:edy.setiawan213@gmail.com)
+I Wayan Natura Adnyana - Frontend Engineer\
+[LinkedIn](https://www.linkedin.com/in/natura-adnyana/)-[Github](https://github.com/NaturaAdnyana/)-[Email](mailto:natura538@gmail.com)\
 
-I Wayan Natura Adnyana - Frontend Engineer
-
-- [LinkedIn](https://www.linkedin.com/in/natura-adnyana/)
-- [Github](https://github.com/NaturaAdnyana/)
-- [Email](mailto:natura538@gmail.com)
+To ask questions, report bugs, asking for environment variables you can contact us too.
 
 ## 📝 License
