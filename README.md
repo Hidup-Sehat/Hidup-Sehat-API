@@ -134,10 +134,12 @@ We would like to acknowledge the following groups, individuals and projects for 
 ## ☎️ Hire the Authors
 
 Edy Setiawan - Backend Engineer\
-[LinkedIn](https://www.linkedin.com/in/e-edsen/)-[Github](https://github.com/e-edsen/)-[Email](mailto:edy.setiawan213@gmail.com)\
+Edy lead the Cloud Run Deployment in this project\
+[LinkedIn](https://www.linkedin.com/in/e-edsen/) [Github](https://github.com/e-edsen/) [Email](mailto:edy.setiawan213@gmail.com)
 
 I Wayan Natura Adnyana - Frontend Engineer\
-[LinkedIn](https://www.linkedin.com/in/natura-adnyana/)-[Github](https://github.com/NaturaAdnyana/)-[Email](mailto:natura538@gmail.com)\
+Natura lead the API and Testing in this project\
+[LinkedIn](https://www.linkedin.com/in/natura-adnyana/) [Github](https://github.com/NaturaAdnyana/)[Email](mailto:natura538@gmail.com)
 
 To ask questions, report bugs, asking for environment variables you can contact us too.
 
